@@ -66,8 +66,7 @@
 		{#if opslag.bezig}
 			<p class="terug" role="status">
 				Welkom terug{team.naam ? `, ${team.naam}` : ''}! Jullie hebben {tocht.aantal} van
-				{tocht.totaal}
-				{tocht.aantal === 1 ? 'stempel' : 'stempels'}.
+				{tocht.totaal} stempels.
 			</p>
 			<Knop href={resolve('/(tocht)/(nav)/onderweg')} icoon="play">Verder met de tocht</Knop>
 			{#if bevestigWissen}
