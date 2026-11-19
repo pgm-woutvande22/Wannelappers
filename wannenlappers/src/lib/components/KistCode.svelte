@@ -7,16 +7,17 @@
 	let { cijfers }: Props = $props();
 
 	const gevonden = $derived(cijfers.filter(Boolean).length);
+	const id = $props.id();
 </script>
 
 <div class="code">
-	<p class="label" id="kistcode-label">Code voor de kist</p>
-	<ol class="cijfers" aria-labelledby="kistcode-label" aria-describedby="kistcode-stand">
+	<p class="label" id="{id}-label"><span>Code voor</span> <span>de kist</span></p>
+	<ol class="cijfers" aria-labelledby="{id}-label" aria-describedby="{id}-stand">
 		{#each cijfers as cijfer, i (i)}
 			<li class={{ gevonden: cijfer }}>{cijfer ?? '?'}</li>
 		{/each}
 	</ol>
-	<span id="kistcode-stand" class="visueel-verborgen">
+	<span id="{id}-stand" class="visueel-verborgen">
 		{gevonden} van {cijfers.length} cijfers gevonden
 	</span>
 </div>
@@ -27,7 +28,7 @@
 		align-items: center;
 		gap: 8px;
 		padding: 10px 14px;
-		border-radius: var(--radius-klein);
+		border-radius: var(--radius-knop);
 		background: var(--kleur-groen-licht);
 	}
 
@@ -41,9 +42,15 @@
 		text-transform: uppercase;
 	}
 
+	.label span {
+		display: block;
+		white-space: nowrap;
+	}
+
 	.cijfers {
 		display: flex;
-		gap: 6px;
+		gap: 8px;
+		margin-left: auto;
 		padding: 0;
 		list-style: none;
 	}
@@ -52,9 +59,9 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 38px;
-		height: 44px;
-		border-radius: 10px;
+		width: 44px;
+		height: 46px;
+		border-radius: var(--radius-klein);
 		background: var(--kleur-wit);
 		color: var(--kleur-grijs);
 		font-family: var(--font-titel);
@@ -63,15 +70,7 @@
 	}
 
 	li.gevonden {
-		color: var(--kleur-groen-donker);
-	}
-
-	.visueel-verborgen {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		overflow: hidden;
-		clip-path: inset(50%);
-		white-space: nowrap;
+		background: var(--kleur-blauw);
+		color: var(--kleur-wit);
 	}
 </style>

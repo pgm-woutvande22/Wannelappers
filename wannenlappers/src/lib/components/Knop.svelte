@@ -33,8 +33,8 @@
 		align-items: center;
 		justify-content: center;
 		width: 100%;
-		height: 56px;
-		border-radius: var(--radius-klein);
+		height: 58px;
+		border-radius: var(--radius-knop);
 		font-family: var(--font-titel);
 		font-weight: 800;
 		font-size: 18px;

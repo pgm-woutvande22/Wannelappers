@@ -4,7 +4,11 @@
  */
 class Team {
 	naam = $state('');
-	leeftijd = $state<string | undefined>();
+	/** Leeftijd van elk kind dat meespeelt. */
+	leeftijden = $state<number[]>([]);
+
+	/** Jongste kind: bepaalt hoe eenvoudig de opdrachten uitgelegd worden. */
+	jongste = $derived(this.leeftijden.length ? Math.min(...this.leeftijden) : undefined);
 }
 
 export const team = new Team();

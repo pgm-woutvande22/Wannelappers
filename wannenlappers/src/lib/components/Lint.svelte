@@ -1,25 +1,15 @@
 <script lang="ts">
-	import lintGroot from '#lib/assets/lint.svg';
-	import lintKlein from '#lib/assets/lint-klein.svg';
+	import lint from '#lib/assets/lint.svg';
 
 	interface Props {
 		tekst: string;
-		/** groot: 170×28 (startscherm), klein: 150×28 (schermkop). */
-		variant?: 'groot' | 'klein';
 	}
 
-	let { tekst, variant = 'groot' }: Props = $props();
-
-	const varianten = {
-		groot: { src: lintGroot, breedte: 170 },
-		klein: { src: lintKlein, breedte: 150 }
-	};
-
-	const lint = $derived(varianten[variant]);
+	let { tekst }: Props = $props();
 </script>
 
-<span class="lint {variant}">
-	<img src={lint.src} alt="" width={lint.breedte} height="28" />
+<span class="lint">
+	<img src={lint} alt="" width="170" height="28" />
 	<span class="tekst">{tekst}</span>
 </span>
 
@@ -28,16 +18,10 @@
 	.lint {
 		position: relative;
 		display: inline-flex;
-		align-self: center;
 		align-items: center;
 		min-width: 170px;
 		height: 28px;
 		padding: 0 23.5px;
-	}
-
-	.klein {
-		min-width: 150px;
-		padding: 0 12px;
 	}
 
 	img {
@@ -59,11 +43,5 @@
 		text-transform: uppercase;
 		color: var(--kleur-wit);
 		white-space: nowrap;
-	}
-
-	.klein .tekst {
-		font-size: 11px;
-		letter-spacing: 1.76px;
-		text-indent: 1.76px;
 	}
 </style>

@@ -24,14 +24,19 @@
 	--font-tekst: 'Carlito', 'Calibri', system-ui, sans-serif;
 
 	/* Afrondingen */
-	--radius-veld: 12px;
-	--radius-klein: 14px;
-	--radius-groot: 22px;
+	--radius-klein: 10px;
+	--radius-veld: 14px;
+	--radius-knop: 16px;
+	--radius-kaart: 18px;
+	--radius-groot: 32px;
 	--radius-pil: 999px;
 
 	/* Ruimte */
 	--ruimte-scherm: 24px;
-	--ruimte-blok: 14px;
+	--ruimte-blok: 12px;
+
+	/* Hoogte van de tabbalk onderaan (zonder safe area) */
+	--tabbalk-hoogte: 58px;
 
 	/* Interactie */
 	--rand-veld: 2px;

@@ -1,6 +1,4 @@
 <script lang="ts">
-	import Icoon from '#lib/components/Icoon.svelte';
-
 	interface Props {
 		suggesties: string[];
 		/** Huidige waarde; de overeenkomende suggestie wordt als gekozen getoond. */
@@ -12,16 +10,9 @@
 </script>
 
 <div class="suggesties" role="group" aria-label="Ideetjes voor een teamnaam">
-	<span class="label">
-		<Icoon naam="dobbelsteen" />
-		Ideetje:
-	</span>
+	<span class="label" aria-hidden="true">Ideetje:</span>
 	{#each suggesties as suggestie (suggestie)}
-		<button
-			type="button"
-			aria-pressed={gekozen === suggestie}
-			onclick={() => onkies(suggestie)}
-		>
+		<button type="button" aria-pressed={gekozen === suggestie} onclick={() => onkies(suggestie)}>
 			{suggestie}
 		</button>
 	{/each}
@@ -38,9 +29,6 @@
 	}
 
 	.label {
-		display: flex;
-		align-items: center;
-		gap: 4px;
 		color: var(--kleur-grijs);
 	}
 

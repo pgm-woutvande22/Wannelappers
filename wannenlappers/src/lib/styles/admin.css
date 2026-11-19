@@ -1,0 +1,193 @@
+/*
+ * Gedeelde stijl voor de admin (desktop). Alles onder .admin zodat
+ * de tocht-schermen niet geraakt worden.
+ */
+.admin {
+	--admin-achtergrond: var(--kleur-blauw-licht);
+	--admin-zijbalk: 240px;
+	--admin-ruimte: 32px;
+
+	min-height: 100vh;
+	background: var(--admin-achtergrond);
+	color: var(--kleur-blauw);
+	font-size: 15px;
+	line-height: 1.4;
+}
+
+.admin h1 {
+	font-family: var(--font-titel);
+	font-weight: 900;
+	font-size: 28px;
+}
+
+.admin h2 {
+	font-family: var(--font-titel);
+	font-weight: 800;
+	font-size: 19px;
+}
+
+/* Wit vlak voor tabellen en formulieren. */
+.admin .paneel {
+	padding: 24px;
+	border: 1px solid var(--kleur-lijn);
+	border-radius: var(--radius-kaart);
+	background: var(--kleur-wit);
+}
+
+/* Formuliervelden */
+.admin .veld {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.admin .veld > label,
+.admin .veld > .label {
+	font-family: var(--font-titel);
+	font-weight: 800;
+	font-size: 14px;
+}
+
+.admin .veld .hulp {
+	color: var(--kleur-grijs);
+	font-size: 13px;
+}
+
+.admin input:not([type='checkbox']),
+.admin select,
+.admin textarea {
+	width: 100%;
+	padding: 10px 12px;
+	border: var(--rand-veld) solid var(--kleur-lijn);
+	border-radius: var(--radius-klein);
+	background: var(--kleur-wit);
+	color: var(--kleur-blauw);
+	font: inherit;
+	transition: border-color var(--overgang);
+}
+
+.admin input:hover,
+.admin select:hover,
+.admin textarea:hover {
+	border-color: var(--kleur-grijs);
+}
+
+.admin input:focus-visible,
+.admin select:focus-visible,
+.admin textarea:focus-visible {
+	border-color: var(--kleur-blauw);
+	outline: 3px solid var(--kleur-blauw-licht);
+	outline-offset: 0;
+}
+
+.admin [aria-invalid='true'] {
+	border-color: var(--kleur-fout);
+	background: var(--kleur-fout-licht);
+}
+
+.admin textarea {
+	min-height: 96px;
+	resize: vertical;
+}
+
+.admin input[type='checkbox'] {
+	width: 18px;
+	height: 18px;
+	accent-color: var(--kleur-groen-donker);
+}
+
+/* Knoppen (kleiner dan in de app) */
+.admin .knop {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	min-height: var(--tik-min);
+	padding: 0 18px;
+	border: 2px solid var(--kleur-blauw);
+	border-radius: var(--radius-klein);
+	background: var(--kleur-blauw);
+	color: var(--kleur-wit);
+	font-family: var(--font-titel);
+	font-weight: 800;
+	font-size: 15px;
+	text-decoration: none;
+	cursor: pointer;
+	transition:
+		filter var(--overgang),
+		background-color var(--overgang);
+}
+
+.admin .knop:hover:not(:disabled) {
+	filter: brightness(1.15);
+}
+
+.admin .knop:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.admin .knop.secundair {
+	background: var(--kleur-wit);
+	color: var(--kleur-blauw);
+}
+
+.admin .knop.secundair:hover:not(:disabled) {
+	filter: none;
+	background: var(--kleur-blauw-licht);
+}
+
+.admin .knop.gevaar {
+	border-color: var(--kleur-fout);
+	background: var(--kleur-wit);
+	color: var(--kleur-fout);
+}
+
+.admin .knop.gevaar:hover:not(:disabled) {
+	filter: none;
+	background: var(--kleur-fout-licht);
+}
+
+/* Tabellen */
+.admin table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.admin th,
+.admin td {
+	padding: 10px 12px;
+	border-bottom: 1px solid var(--kleur-lijn);
+	text-align: left;
+	vertical-align: middle;
+}
+
+.admin th {
+	color: var(--kleur-grijs);
+	font-size: 13px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
+.admin tbody tr:last-child td {
+	border-bottom: none;
+}
+
+.admin .leeg {
+	color: var(--kleur-grijs);
+}
+
+/* Meldingen */
+.admin .melding {
+	padding: 12px 16px;
+	border-radius: var(--radius-klein);
+	background: var(--kleur-groen-licht);
+	color: var(--kleur-groen-donker);
+	font-weight: 700;
+}
+
+.admin .melding.fout {
+	background: var(--kleur-fout-licht);
+	color: var(--kleur-fout);
+}

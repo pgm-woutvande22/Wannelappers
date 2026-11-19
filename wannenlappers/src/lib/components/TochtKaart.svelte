@@ -4,77 +4,45 @@
 	import ondergrond from '#lib/assets/kaart-ondergrond.svg';
 	import StopMarker from '#lib/components/StopMarker.svelte';
 	import { JIJ, KAART, type Stop } from '#lib/data/stops.js';
+	import type { StopStatus } from '#lib/state/tocht.svelte.js';
 
 	interface Props {
 		stops: Stop[];
-		volgende: Stop;
-		/** Stop waarvan het label getoond wordt. */
-		gekozen?: number;
-		/** Extra info in het label van de volgende stop, bv. de afstand. */
-		afstand?: string;
+		status: (stop: Stop) => StopStatus;
 	}
 
-	let { stops, volgende, gekozen = $bindable(), afstand }: Props = $props();
+	let { stops, status }: Props = $props();
 
-	const toon = $derived(stops.find((s) => s.nr === (gekozen ?? volgende.nr)) ?? volgende);
-
-	const pct = (x: number, y: number) => ({
-		x: `${(x / KAART.breedte) * 100}%`,
-		y: `${(y / KAART.hoogte) * 100}%`
-	});
-	const jij = pct(JIJ.x, JIJ.y);
-	const label = $derived(pct(toon.x, toon.y));
-	const tipTekst = $derived(
-		[`Stop ${toon.nr}`, toon.naam, toon.nr === volgende.nr ? afstand : undefined]
-			.filter(Boolean)
-			.join(' · ')
-	);
+	const jij = {
+		x: `${(JIJ.x / KAART.breedte) * 100}%`,
+		y: `${(JIJ.y / KAART.hoogte) * 100}%`
+	};
 </script>
 
-<div class="kaart" role="group" aria-label="Kaart van de tocht">
-	<div class="canvas">
-		<img class="ondergrond" src={ondergrond} alt="" width={KAART.breedte} height={KAART.hoogte} />
+<div class="kaart">
+	<img class="ondergrond" src={ondergrond} alt="" width={KAART.breedte} height={KAART.hoogte} />
 
-		<span class="jij" style:left={jij.x} style:top={jij.y}>
-			<img src={jijNauwkeurigheid} alt="" width="52" height="52" />
-			<img class="punt" src={jijPunt} alt="" width="20" height="20" />
-			<span class="jij-label">Jij bent hier</span>
-		</span>
+	<span class="jij" style:left={jij.x} style:top={jij.y}>
+		<img src={jijNauwkeurigheid} alt="" width="52" height="52" />
+		<img class="punt" src={jijPunt} alt="" width="20" height="20" />
+		<span class="jij-label">Jij bent hier</span>
+	</span>
 
+	<ol class="markers" aria-label="Stops op de kaart">
 		{#each stops as stop (stop.nr)}
-			<StopMarker
-				{stop}
-				volgende={stop.nr === volgende.nr}
-				gekozen={stop.nr === toon.nr}
-				onkies={() => (gekozen = stop.nr)}
-			/>
+			<StopMarker {stop} status={status(stop)} />
 		{/each}
-
-		<p
-			class={['tip', { volgende: toon.nr === volgende.nr }]}
-			style:left={label.x}
-			style:top={label.y}
-			aria-live="polite"
-		>
-			{tipTekst}
-		</p>
-	</div>
+	</ol>
 </div>
 
 <style>
 	.kaart {
-		width: 100%;
-		/* Onderkant van de kaart is leeg; iets inkorten zodat de stempelkaart in beeld past. */
-		aspect-ratio: 345 / 330;
-		overflow: hidden;
-		border: 1.5px solid var(--kleur-lijn);
-		border-radius: 18px;
-	}
-
-	.canvas {
 		position: relative;
 		width: 100%;
-		aspect-ratio: 345 / 372;
+		aspect-ratio: 345 / 418;
+		overflow: hidden;
+		border: 1.5px solid var(--kleur-lijn);
+		border-radius: 20px;
 	}
 
 	.ondergrond {
@@ -84,12 +52,19 @@
 		height: 100%;
 	}
 
+	.markers {
+		position: absolute;
+		inset: 0;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
 	.jij {
 		position: absolute;
-		translate: -50% -50%;
 		width: 52px;
 		height: 52px;
-		pointer-events: none;
+		translate: -50% -50%;
 	}
 
 	.jij img {
@@ -113,24 +88,5 @@
 		font-weight: 800;
 		font-size: 11px;
 		white-space: nowrap;
-	}
-
-	/* Label boven de gekozen marker. */
-	.tip {
-		position: absolute;
-		translate: -50% calc(-100% - 36px);
-		padding: 5px 10px;
-		border-radius: 8px;
-		background: var(--kleur-blauw);
-		color: var(--kleur-wit);
-		font-family: var(--font-titel);
-		font-weight: 800;
-		font-size: 13px;
-		white-space: nowrap;
-		pointer-events: none;
-	}
-
-	.tip.volgende {
-		background: var(--kleur-groen-donker);
 	}
 </style>

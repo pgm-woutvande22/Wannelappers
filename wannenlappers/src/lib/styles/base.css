@@ -21,6 +21,23 @@ ul {
 	margin: 0;
 }
 
+/* Label boven een formulierveld of keuzegroep. */
+.veldlabel {
+	font-family: var(--font-titel);
+	font-weight: 800;
+	font-size: 17px;
+}
+
+/* Wel voor schermlezers, niet zichtbaar. */
+.visueel-verborgen {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
 :focus-visible {
 	outline: 3px solid var(--kleur-groen-donker);
 	outline-offset: 2px;

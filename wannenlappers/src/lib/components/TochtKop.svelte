@@ -1,4 +1,5 @@
 <script lang="ts">
+	import wannesLaps from '#lib/assets/wannes-laps.svg';
 	import Chip from '#lib/components/Chip.svelte';
 	import Lint from '#lib/components/Lint.svelte';
 
@@ -16,6 +17,7 @@
 	<Lint tekst={lint} />
 	<div class="titelrij">
 		<h1>{titel}</h1>
+		<img src={wannesLaps} alt="Wannes Laps" width="76" height="76" />
 	</div>
 	<p>{beschrijving}</p>
 	{#if kenmerken.length}
@@ -28,15 +30,14 @@
 </header>
 
 <style>
+	/* Volle breedte, tot boven in het scherm (ook onder de statusbalk van de telefoon). */
 	.kop {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		gap: 10px;
-		width: 100%;
-		padding: 20px;
-		text-align: center;
-		border-radius: var(--radius-groot);
+		align-items: flex-start;
+		gap: 12px;
+		padding: calc(env(safe-area-inset-top) + 28px) var(--ruimte-scherm) 28px;
+		border-radius: 0 0 var(--radius-groot) var(--radius-groot);
 		background: var(--kleur-blauw);
 		color: var(--kleur-wit);
 	}
@@ -44,7 +45,7 @@
 	.titelrij {
 		display: flex;
 		align-items: flex-start;
-		gap: 10px;
+		gap: 12px;
 		width: 100%;
 	}
 
@@ -52,7 +53,7 @@
 		flex: 1;
 		font-family: var(--font-titel);
 		font-weight: 900;
-		font-size: 32px;
+		font-size: 36px;
 		line-height: 1.05;
 	}
 
@@ -61,13 +62,13 @@
 	}
 
 	p {
+		font-size: 17px;
 		line-height: 1.3;
 	}
 
 	.kenmerken {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: center;
 		gap: 8px;
 		padding: 0;
 		list-style: none;

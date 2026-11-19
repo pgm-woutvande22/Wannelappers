@@ -15,15 +15,17 @@
 		value?: string;
 		/** Foutboodschap; zet de tegels in fouttoestand. */
 		fout?: string;
+		/** Hulptekst onder de tegels. */
+		hulp?: string;
 	}
 
-	let { vraag, name, keuzes, value = $bindable(), fout }: Props = $props();
+	let { vraag, name, keuzes, value = $bindable(), fout, hulp }: Props = $props();
 
 	const id = $props.id();
 </script>
 
-<fieldset aria-describedby="{id}-fout" class={{ fout }}>
-	<legend>{vraag}</legend>
+<fieldset aria-describedby="{id}-fout{hulp ? ` ${id}-hulp` : ''}" class={{ fout }}>
+	<legend class="veldlabel">{vraag}</legend>
 	<div class="tegels">
 		{#each keuzes as keuze (keuze.waarde)}
 			<label class="tegel">
@@ -42,23 +44,25 @@
 		{/each}
 	</div>
 	<Foutmelding id="{id}-fout" tekst={fout} />
+	{#if hulp}
+		<p id="{id}-hulp" class="hulp">{hulp}</p>
+	{/if}
 </fieldset>
 
 <style>
 	fieldset {
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
+		gap: 12px;
 		margin: 0;
 		padding: 0;
 		border: none;
 	}
 
+	/* Een legend telt niet mee in de flex-layout van de fieldset; daarom eigen marge. */
 	legend {
-		float: left;
-		width: 100%;
 		padding: 0;
-		margin-bottom: 10px;
+		margin-bottom: 12px;
 	}
 
 	.tegels {
@@ -73,7 +77,7 @@
 		align-items: center;
 		justify-content: center;
 		min-width: 0;
-		height: 60px;
+		height: 68px;
 		border: var(--rand-veld) solid var(--kleur-lijn);
 		border-radius: var(--radius-veld);
 		background: var(--kleur-wit);
@@ -118,7 +122,7 @@
 	.label {
 		font-family: var(--font-titel);
 		font-weight: 900;
-		font-size: 20px;
+		font-size: 21px;
 	}
 
 	.onderschrift {
@@ -128,5 +132,11 @@
 
 	.tegel:has(input:checked) .onderschrift {
 		color: inherit;
+	}
+
+	.hulp {
+		color: var(--kleur-grijs);
+		font-size: 15px;
+		line-height: 1.3;
 	}
 </style>

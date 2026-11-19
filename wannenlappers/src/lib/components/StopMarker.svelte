@@ -1,32 +1,35 @@
 <script lang="ts">
 	import Icoon from '#lib/components/Icoon.svelte';
 	import { KAART, type Stop } from '#lib/data/stops.js';
+	import type { StopStatus } from '#lib/state/tocht.svelte.js';
 
 	interface Props {
 		stop: Stop;
-		volgende?: boolean;
-		gekozen?: boolean;
-		onkies: () => void;
+		status: StopStatus;
 	}
 
-	let { stop, volgende = false, gekozen = false, onkies }: Props = $props();
+	let { stop, status }: Props = $props();
 
-	const icoon = $derived(volgende && stop.kaartIcoonVolgende ? stop.kaartIcoonVolgende : stop.kaartIcoon);
-	const label = $derived(`Stop ${stop.nr}: ${stop.naam}${volgende ? ' (volgende)' : ''}`);
+	const statusTekst: Record<StopStatus, string> = {
+		verzameld: 'gestempeld',
+		volgende: 'volgende stop',
+		open: 'nog te doen'
+	};
 </script>
 
-<button
-	type="button"
-	class={['marker', { volgende, gekozen, kist: !stop.stempel }]}
+<li
+	class={['marker', status, { kist: !stop.stempel }]}
 	style:left="{(stop.x / KAART.breedte) * 100}%"
 	style:top="{(stop.y / KAART.hoogte) * 100}%"
-	aria-label={label}
-	aria-pressed={gekozen}
-	onclick={onkies}
 >
-	<Icoon naam={icoon} />
+	<span class="visueel-verborgen">Stop {stop.nr}, {stop.naam}: {statusTekst[status]}</span>
+	{#if status === 'verzameld'}
+		<Icoon naam="vinkje" maat={18} />
+	{:else}
+		<Icoon naam={stop.icoon} maat={status === 'volgende' ? 28 : 21} />
+	{/if}
 	<span class="nr" aria-hidden="true">{stop.nr}</span>
-</button>
+</li>
 
 <style>
 	.marker {
@@ -37,31 +40,28 @@
 		justify-content: center;
 		width: var(--maat);
 		height: var(--maat);
-		padding: 0;
 		border: 2.5px solid var(--kleur-groen-donker);
 		border-radius: 50%;
 		background: var(--kleur-wit);
-		cursor: pointer;
+		color: var(--kleur-groen-donker);
 		translate: -50% -50%;
-		transition:
-			scale var(--overgang),
-			box-shadow var(--overgang);
 	}
 
 	.kist {
 		border-color: var(--kleur-blauw);
+		color: var(--kleur-blauw);
 	}
 
 	.volgende {
-		--maat: 54px;
+		--maat: 56px;
 		border: 4px solid var(--kleur-wit);
 		background: var(--kleur-groen-donker);
+		color: var(--kleur-wit);
 	}
 
-	.marker:hover,
-	.gekozen {
-		scale: 1.08;
-		box-shadow: 0 0 0 4px var(--kleur-groen-licht);
+	.verzameld {
+		background: var(--kleur-groen-donker);
+		color: var(--kleur-wit);
 	}
 
 	.nr {
@@ -82,7 +82,7 @@
 	}
 
 	.volgende .nr {
-		top: -8px;
-		right: -8px;
+		top: -6px;
+		right: -6px;
 	}
 </style>

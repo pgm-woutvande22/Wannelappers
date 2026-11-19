@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import Foutmelding from '#lib/components/Foutmelding.svelte';
 	import Icoon from '#lib/components/Icoon.svelte';
 	import type { IcoonNaam } from '#lib/utils/iconen.js';
@@ -12,6 +13,8 @@
 		icoon?: IcoonNaam;
 		/** Foutboodschap; zet het veld in fouttoestand. */
 		fout?: string;
+		/** Extra inhoud onder het veld, bv. suggesties. */
+		onder?: Snippet;
 	}
 
 	let {
@@ -21,18 +24,19 @@
 		placeholder,
 		maxlength,
 		icoon,
-		fout
+		fout,
+		onder
 	}: Props = $props();
 
 	const id = $props.id();
 </script>
 
 <div class="wrapper">
+	<label class="veldlabel" for={id}>{label}</label>
 	<div class={['veld', { fout }]}>
 		{#if icoon}
-			<Icoon naam={icoon} />
+			<Icoon naam={icoon} maat={20} />
 		{/if}
-		<label class="visueel-verborgen" for={id}>{label}</label>
 		<input
 			{id}
 			{name}
@@ -50,13 +54,14 @@
 		{/if}
 	</div>
 	<Foutmelding id="{id}-fout" tekst={fout} />
+	{#if onder}{@render onder()}{/if}
 </div>
 
 <style>
 	.wrapper {
 		display: flex;
 		flex-direction: column;
-		gap: 6px;
+		gap: 12px;
 	}
 
 	.veld {
@@ -64,8 +69,8 @@
 		align-items: center;
 		gap: 10px;
 		width: 100%;
-		height: 56px;
-		padding: 0 14px;
+		height: 60px;
+		padding: 0 16px;
 		border: var(--rand-veld) solid var(--kleur-lijn);
 		border-radius: var(--radius-veld);
 		background: var(--kleur-wit);
@@ -97,7 +102,7 @@
 		caret-color: var(--kleur-blauw);
 		font-family: var(--font-titel);
 		font-weight: 800;
-		font-size: 19px;
+		font-size: 20px;
 	}
 
 	input:focus {
@@ -117,14 +122,5 @@
 		flex-shrink: 0;
 		color: var(--kleur-grijs);
 		font-size: 13px;
-	}
-
-	.visueel-verborgen {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		overflow: hidden;
-		clip-path: inset(50%);
-		white-space: nowrap;
 	}
 </style>
