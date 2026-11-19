@@ -5,6 +5,7 @@
 	import KistCode from '#lib/components/KistCode.svelte';
 	import Knop from '#lib/components/Knop.svelte';
 	import Stempel from '#lib/components/Stempel.svelte';
+	import { opslag } from '#lib/state/opslag.svelte.js';
 	import { tocht } from '#lib/state/tocht.svelte.js';
 	import type { PageProps } from './$types';
 
@@ -17,9 +18,10 @@
 	);
 	const volgende = $derived(tocht.volgende);
 
-	// De voortgang leeft enkel in de browser: na herladen is de stempel weg, terug naar de opdracht.
+	// Wie hier komt zonder deze stempel (bv. via een oude link), gaat terug naar de opdracht.
+	// Pas na het herstellen uit localStorage beslissen, anders lijkt elke stempel na herladen weg.
 	$effect(() => {
-		if (!tocht.verzameld.has(stop.nr)) {
+		if (opslag.hersteld && !tocht.verzameld.has(stop.nr)) {
 			goto(resolve('/(tocht)/stop/[nr]', { nr: String(stop.nr) }), { replaceState: true });
 		}
 	});

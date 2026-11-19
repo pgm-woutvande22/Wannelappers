@@ -28,6 +28,13 @@ class Tocht {
 
 	kistOpen = $derived(this.aantal === this.totaal);
 
+	/** Nieuwe tocht: oude stempels weg. */
+	begin(id: string | null) {
+		this.id = id;
+		this.afgemeld = false;
+		this.verzameld.clear();
+	}
+
 	status(stop: Stop): StopStatus {
 		if (this.verzameld.has(stop.nr)) return 'verzameld';
 		return stop.nr === this.volgende.nr ? 'volgende' : 'open';

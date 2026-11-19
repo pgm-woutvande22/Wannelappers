@@ -52,8 +52,8 @@
 		team.leeftijden = leeftijden;
 
 		bezig = true;
-		tocht.id = await registreer(leeftijden);
-		tocht.afgemeld = false;
+		// Nieuwe tocht: stempels van een vorige tocht op dit toestel vervallen.
+		tocht.begin(await registreer(leeftijden));
 		bezig = false;
 
 		goto(resolve('/(tocht)/(nav)/onderweg'));
@@ -122,8 +122,8 @@
 	{#snippet actie()}
 		<p class="privacy">
 			<Icoon naam="slot" maat={16} />
-			Jullie teamnaam bewaren we niet. De leeftijden en de duur van de tocht bewaren we anoniem, om
-			de tocht te verbeteren.
+			Jullie teamnaam en stempels blijven enkel op dit toestel. De leeftijden en de duur van de tocht
+			bewaren we anoniem, om de tocht te verbeteren.
 		</p>
 		<Knop type="submit" disabled={bezig}>
 			{bezig ? 'Even geduld…' : 'Klaar, we vertrekken!'}
