@@ -1,0 +1,27 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: var(--kleur-wit);
+	color: var(--kleur-blauw);
+	font-family: var(--font-tekst);
+	font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+p,
+ol,
+ul {
+	margin: 0;
+}
+
+:focus-visible {
+	outline: 3px solid var(--kleur-groen-donker);
+	outline-offset: 2px;
+}

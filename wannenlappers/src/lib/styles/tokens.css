@@ -1,0 +1,40 @@
+/*
+ * Design tokens uit Figma: "Stijl Wannen" (collectie "kleur").
+ * https://www.figma.com/design/yXXaOPkXo1H3kQiF0qR4bq/Stijl-Wannen
+ * Namen volgen de Figma-variabelen: kleur/groenDonker -> --kleur-groen-donker.
+ */
+:root {
+	/* Merk */
+	--kleur-blauw: #04335c;
+	--kleur-blauw-licht: #e8eef4;
+	--kleur-groen-donker: #2f6b16;
+	--kleur-groen-licht: #eef5e7;
+
+	/* Neutraal */
+	--kleur-wit: #ffffff;
+	--kleur-grijs: #5b6670;
+	--kleur-lijn: #d5dfe8;
+
+	/* Feedback */
+	--kleur-fout: #b42318;
+	--kleur-fout-licht: #fdecea;
+
+	/* Typografie (afgeleid uit de schermen, geen Figma-variabelen) */
+	--font-titel: 'Nunito', system-ui, sans-serif;
+	--font-tekst: 'Carlito', 'Calibri', system-ui, sans-serif;
+
+	/* Afrondingen */
+	--radius-veld: 12px;
+	--radius-klein: 14px;
+	--radius-groot: 22px;
+	--radius-pil: 999px;
+
+	/* Ruimte */
+	--ruimte-scherm: 24px;
+	--ruimte-blok: 14px;
+
+	/* Interactie */
+	--rand-veld: 2px;
+	--tik-min: 40px;
+	--overgang: 150ms ease;
+}
