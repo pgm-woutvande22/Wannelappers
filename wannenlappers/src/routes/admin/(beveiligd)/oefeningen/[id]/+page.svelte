@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { resolve } from '$app/paths';
+	import FotoBeheer from '#lib/components/admin/FotoBeheer.svelte';
 	import OefeningVelden from '#lib/components/admin/OefeningVelden.svelte';
 	import type { PageProps } from './$types';
 
@@ -12,6 +13,10 @@
 	const waarden = $derived((form && 'waarden' in form && form.waarden) || data.oefening);
 	const fouten = $derived(form && 'fouten' in form ? form.fouten : undefined);
 	const verwijderFout = $derived(form && 'verwijderFout' in form ? form.verwijderFout : undefined);
+	const fotoFout = $derived(form && 'fotoFout' in form ? form.fotoFout : undefined);
+	const fotoBeschrijving = $derived(
+		form && 'beschrijving' in form && !('fotoToegevoegd' in form) ? form.beschrijving : undefined
+	);
 </script>
 
 <svelte:head>
@@ -22,10 +27,15 @@
 	<a class="terug" href={resolve('/admin/(beveiligd)/oefeningen')}>← Alle oefeningen</a>
 	<h1>{data.oefening.titel}</h1>
 
+	{#if data.nieuw}
+		<p class="melding" role="status">De oefening is aangemaakt. Voeg hieronder foto's toe.</p>
+	{/if}
+
 	<form
 		class="paneel"
 		method="POST"
 		action="?/opslaan"
+		enctype="multipart/form-data"
 		use:enhance={() => {
 			bezig = true;
 			return async ({ update }) => {
@@ -43,6 +53,8 @@
 			<a class="knop secundair" href={resolve('/admin/(beveiligd)/oefeningen')}>Annuleer</a>
 		</div>
 	</form>
+
+	<FotoBeheer fotos={data.fotos} fout={fotoFout} beschrijving={fotoBeschrijving} />
 
 	<section class="paneel gevarenzone" aria-labelledby="verwijder-titel">
 		<h2 id="verwijder-titel">Oefening verwijderen</h2>

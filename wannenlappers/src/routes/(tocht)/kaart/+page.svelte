@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import Icoon from '#lib/components/Icoon.svelte';
 	import InfoKaart from '#lib/components/InfoKaart.svelte';
 	import Knop from '#lib/components/Knop.svelte';
@@ -27,8 +28,9 @@
 	</InfoKaart>
 
 	{#snippet actie()}
-		<!-- TODO: naar de opdracht van deze stop zodra scherm 5 bestaat. -->
-		<Knop>We zijn bij {volgende.inZin}</Knop>
+		<Knop href={resolve('/(tocht)/stop/[nr]', { nr: String(volgende.nr) })}>
+			We zijn bij {volgende.inZin}
+		</Knop>
 	{/snippet}
 </Scherm>
 

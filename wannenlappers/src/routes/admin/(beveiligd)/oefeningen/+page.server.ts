@@ -7,7 +7,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 		locals.supabase.from('stops').select('nr, naam').order('nr'),
 		locals.supabase
 			.from('oefeningen')
-			.select('id, stop_nr, titel, type, audio_pad, volgorde, actief')
+			.select('id, stop_nr, titel, audio_pad, volgorde, actief, oefening_fotos(id)')
 			.order('stop_nr')
 			.order('volgorde')
 	]);

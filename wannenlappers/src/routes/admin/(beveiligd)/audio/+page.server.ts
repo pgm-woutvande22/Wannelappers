@@ -1,6 +1,7 @@
 import { error, fail } from '@sveltejs/kit';
 import { vereisAdmin } from '#lib/server/admin.js';
-import { lijstAudio, MAX_AUDIO_BYTES, veiligeBestandsnaam } from '#lib/server/audio.js';
+import { lijstAudio, uploadAudio } from '#lib/server/audio.js';
+import { gekozenBestand } from '#lib/server/opslag.js';
 import { AUDIO_BUCKET } from '#lib/server/supabase.js';
 import type { Actions, PageServerLoad } from './$types';
 
@@ -22,33 +23,13 @@ export const load: PageServerLoad = async ({ locals }) => {
 export const actions: Actions = {
 	uploaden: async ({ request, locals }) => {
 		await vereisAdmin(locals);
-		const bestand = (await request.formData()).get('bestand');
+		const bestand = gekozenBestand(await request.formData(), 'bestand');
+		if (!bestand) return fail(400, { uploadFout: 'Kies een audiobestand.' });
 
-		if (!(bestand instanceof File) || bestand.size === 0) {
-			return fail(400, { uploadFout: 'Kies een audiobestand.' });
-		}
-		if (!bestand.type.startsWith('audio/')) {
-			return fail(400, { uploadFout: 'Dat is geen audiobestand.' });
-		}
-		if (bestand.size > MAX_AUDIO_BYTES) {
-			return fail(400, { uploadFout: 'Het bestand is groter dan 20 MB.' });
-		}
+		const resultaat = await uploadAudio(locals.supabase, bestand);
+		if ('fout' in resultaat) return fail(400, { uploadFout: resultaat.fout });
 
-		const pad = veiligeBestandsnaam(bestand.name);
-		const { error: fout } = await locals.supabase.storage
-			.from(AUDIO_BUCKET)
-			.upload(pad, bestand, { contentType: bestand.type, upsert: false });
-
-		if (fout) {
-			const bestaat = 'statusCode' in fout && String(fout.statusCode) === '409';
-			return fail(bestaat ? 409 : 500, {
-				uploadFout: bestaat
-					? `Er bestaat al een bestand "${pad}". Verwijder het eerst of geef je bestand een andere naam.`
-					: `Uploaden mislukt: ${fout.message}`
-			});
-		}
-
-		return { geupload: pad };
+		return { geupload: resultaat.pad };
 	},
 
 	verwijderen: async ({ request, locals }) => {

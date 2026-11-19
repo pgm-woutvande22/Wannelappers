@@ -19,6 +19,7 @@
 	<form
 		class="paneel"
 		method="POST"
+		enctype="multipart/form-data"
 		use:enhance={() => {
 			bezig = true;
 			return async ({ update }) => {
@@ -36,7 +37,7 @@
 
 		<div class="knoppen">
 			<button class="knop" type="submit" disabled={bezig}>
-				{bezig ? 'Bezig…' : 'Oefening opslaan'}
+				{bezig ? 'Bezig…' : "Opslaan en foto's toevoegen"}
 			</button>
 			<a class="knop secundair" href={resolve('/admin/(beveiligd)/oefeningen')}>Annuleer</a>
 		</div>

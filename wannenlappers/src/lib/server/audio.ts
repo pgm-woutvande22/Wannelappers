@@ -1,3 +1,4 @@
+import { publiekeUrl, upload, veiligeBestandsnaam } from '#lib/server/opslag.js';
 import { AUDIO_BUCKET, type Supabase } from '#lib/server/supabase.js';
 
 export interface AudioBestand {
@@ -20,28 +21,21 @@ export async function lijstAudio(supabase: Supabase): Promise<AudioBestand[]> {
 			.filter((b) => b.id !== null && !b.name.startsWith('.'))
 			.map((b) => ({
 				pad: b.name,
-				url: supabase.storage.from(AUDIO_BUCKET).getPublicUrl(b.name).data.publicUrl,
+				url: publiekeUrl(supabase, AUDIO_BUCKET, b.name),
 				grootte: typeof b.metadata?.size === 'number' ? b.metadata.size : 0,
 				bijgewerkt_op: b.updated_at ?? null
 			}))
 	);
 }
 
-/** "Wannes Intro (1).MP3" -> "wannes-intro-1.mp3" */
-export function veiligeBestandsnaam(naam: string): string {
-	const punt = naam.lastIndexOf('.');
-	const basis = punt > 0 ? naam.slice(0, punt) : naam;
-	const extensie = punt > 0 ? naam.slice(punt + 1) : '';
-	const schoon = (s: string) =>
-		s
-			.normalize('NFD')
-			.replace(/[̀-ͯ]/g, '')
-			.toLowerCase()
-			.replace(/[^a-z0-9]+/g, '-')
-			.replace(/^-+|-+$/g, '');
-	const b = schoon(basis) || 'audio';
-	const e = schoon(extensie);
-	return e ? `${b}.${e}` : b;
-}
-
 export const MAX_AUDIO_BYTES = 20 * 1024 * 1024;
+
+/** Uploadt een audiobestand onder een veilige naam in de audio-bucket. */
+export function uploadAudio(supabase: Supabase, bestand: File) {
+	return upload(supabase, bestand, veiligeBestandsnaam(bestand.name), {
+		bucket: AUDIO_BUCKET,
+		soort: 'audio/',
+		soortNaam: 'audiobestand',
+		maxBytes: MAX_AUDIO_BYTES
+	});
+}

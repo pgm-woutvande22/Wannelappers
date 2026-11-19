@@ -1,15 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { resolve } from '$app/paths';
-	import { OEFENING_TYPES } from '#lib/utils/oefeningFormulier.js';
-	import type { OefeningType } from '#lib/types/database.js';
 	import type { PageProps } from './$types';
 
 	let { data, form }: PageProps = $props();
-
-	function typeLabel(type: OefeningType) {
-		return OEFENING_TYPES.find((t) => t.waarde === type)?.label ?? type;
-	}
 </script>
 
 <svelte:head>
@@ -28,7 +22,14 @@
 
 	{#each data.stops as stop (stop.nr)}
 		<section class="paneel" aria-labelledby="stop-{stop.nr}">
-			<h2 id="stop-{stop.nr}">Stop {stop.nr} · {stop.naam}</h2>
+			<div class="stopkop">
+				<h2 id="stop-{stop.nr}">Stop {stop.nr} · {stop.naam}</h2>
+				<a
+					class="knop secundair klein"
+					href="{resolve('/admin/(beveiligd)/oefeningen/nieuw')}?stop={stop.nr}"
+					aria-label="Nieuwe oefening bij {stop.naam}">+ Oefening</a
+				>
+			</div>
 
 			{#if stop.oefeningen.length === 0}
 				<p class="leeg">Nog geen oefeningen bij deze stop.</p>
@@ -38,7 +39,7 @@
 						<tr>
 							<th scope="col">#</th>
 							<th scope="col">Titel</th>
-							<th scope="col">Type</th>
+							<th scope="col">Foto's</th>
 							<th scope="col">Audio</th>
 							<th scope="col">Status</th>
 							<th scope="col"><span class="visueel-verborgen">Acties</span></th>
@@ -53,7 +54,7 @@
 										{oefening.titel}
 									</a>
 								</td>
-								<td>{typeLabel(oefening.type)}</td>
+								<td>{oefening.oefening_fotos.length}</td>
 								<td>{oefening.audio_pad ?? '–'}</td>
 								<td>
 									<form method="POST" action="?/wisselActief" use:enhance>
@@ -94,7 +95,8 @@
 		max-width: 1100px;
 	}
 
-	header {
+	header,
+	.stopkop {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;

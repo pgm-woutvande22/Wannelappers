@@ -4,8 +4,6 @@
  * Kan later vervangen worden door `supabase gen types typescript`.
  */
 
-export type OefeningType = 'keuze' | 'code' | 'open' | 'luister';
-
 export type StopRij = {
 	nr: number;
 	naam: string;
@@ -23,16 +21,24 @@ export type OefeningRij = {
 	id: string;
 	stop_nr: number;
 	titel: string;
-	type: OefeningType;
-	opdracht: string;
-	opties: string[];
-	antwoord: string | null;
+	tekst: string;
 	audio_pad: string | null;
 	volgorde: number;
 	actief: boolean;
 	aangemaakt_op: string;
 	bijgewerkt_op: string;
-}
+};
+
+export type FotoRij = {
+	id: string;
+	oefening_id: string;
+	/** Pad in de storage-bucket 'fotos'. */
+	pad: string;
+	/** Alt-tekst. */
+	beschrijving: string;
+	volgorde: number;
+	aangemaakt_op: string;
+};
 
 export type TochtRij = {
 	id: string;
@@ -71,7 +77,7 @@ export type Database = {
 				Row: OefeningRij;
 				Insert: Optioneel<
 					Omit<OefeningRij, 'aangemaakt_op' | 'bijgewerkt_op'>,
-					'id' | 'opdracht' | 'opties' | 'antwoord' | 'audio_pad' | 'volgorde' | 'actief'
+					'id' | 'tekst' | 'audio_pad' | 'volgorde' | 'actief'
 				>;
 				Update: Partial<Omit<OefeningRij, 'id' | 'aangemaakt_op' | 'bijgewerkt_op'>>;
 				Relationships: [
@@ -81,6 +87,20 @@ export type Database = {
 						isOneToOne: false;
 						referencedRelation: 'stops';
 						referencedColumns: ['nr'];
+					}
+				];
+			};
+			oefening_fotos: {
+				Row: FotoRij;
+				Insert: Optioneel<Omit<FotoRij, 'aangemaakt_op'>, 'id' | 'volgorde'>;
+				Update: Partial<Omit<FotoRij, 'id' | 'oefening_id' | 'aangemaakt_op'>>;
+				Relationships: [
+					{
+						foreignKeyName: 'oefening_fotos_oefening_id_fkey';
+						columns: ['oefening_id'];
+						isOneToOne: false;
+						referencedRelation: 'oefeningen';
+						referencedColumns: ['id'];
 					}
 				];
 			};
