@@ -56,7 +56,7 @@
 		tocht.afgemeld = false;
 		bezig = false;
 
-		goto(resolve('/(tocht)/kaart'));
+		goto(resolve('/(tocht)/(nav)/onderweg'));
 	}
 
 	/**
@@ -141,8 +141,8 @@
 		align-items: flex-start;
 		gap: 8px;
 		margin-bottom: 12px;
-		color: var(--kleur-grijs);
+		color: var(--kleur-subtiel);
 		font-size: 14px;
-		line-height: 1.25;
+		line-height: 1.35;
 	}
 </style>

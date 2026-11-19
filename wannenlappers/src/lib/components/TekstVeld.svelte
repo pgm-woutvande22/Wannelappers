@@ -61,30 +61,32 @@
 	.wrapper {
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: 10px;
 	}
 
+	/* Wit veld op het canvas (Figma v5), zoals de cijfervakjes van het codepaneel. */
 	.veld {
 		display: flex;
 		align-items: center;
 		gap: 10px;
 		width: 100%;
 		height: 60px;
-		padding: 0 16px;
-		border: var(--rand-veld) solid var(--kleur-lijn);
-		border-radius: var(--radius-veld);
+		padding: 0 18px;
+		border: 2px solid transparent;
+		border-radius: 20px;
 		background: var(--kleur-wit);
+		color: var(--kleur-inkt);
 		transition: border-color var(--overgang);
 	}
 
 	.veld:hover {
-		border-color: var(--kleur-grijs);
+		border-color: var(--kleur-track);
 	}
 
 	.veld:focus-within {
 		border-color: var(--kleur-blauw);
-		outline: 3px solid var(--kleur-blauw-licht);
-		outline-offset: 0;
+		outline: 3px solid var(--kleur-blauwtint);
+		outline-offset: 2px;
 	}
 
 	.veld.fout {
@@ -98,11 +100,11 @@
 		padding: 0;
 		border: none;
 		background: none;
-		color: var(--kleur-blauw);
+		color: var(--kleur-inkt);
 		caret-color: var(--kleur-blauw);
-		font-family: var(--font-titel);
-		font-weight: 800;
-		font-size: 20px;
+		font-family: var(--font-basis);
+		font-weight: 500;
+		font-size: 18px;
 	}
 
 	input:focus {
@@ -111,8 +113,7 @@
 
 	/* Rustiger dan echte invoer, zodat het niet lijkt alsof het veld al ingevuld is. */
 	input::placeholder {
-		color: var(--kleur-grijs);
-		font-family: var(--font-tekst);
+		color: var(--kleur-subtiel);
 		font-weight: 400;
 		font-size: 17px;
 		opacity: 1;
@@ -120,7 +121,7 @@
 
 	.teller {
 		flex-shrink: 0;
-		color: var(--kleur-grijs);
+		color: var(--kleur-subtiel);
 		font-size: 13px;
 	}
 </style>

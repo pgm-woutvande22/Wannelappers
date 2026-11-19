@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import jijNauwkeurigheid from '#lib/assets/jij-nauwkeurigheid.svg';
 	import jijPunt from '#lib/assets/jij-punt.svg';
 	import ondergrond from '#lib/assets/kaart-ondergrond.svg';
@@ -9,40 +10,45 @@
 	interface Props {
 		stops: Stop[];
 		status: (stop: Stop) => StopStatus;
+		/** Link van de volgende stop (de enige klikbare marker). */
+		volgendeHref?: string;
+		/** Kaartje onderaan over de kaart, bv. de volgende stop. */
+		onder?: Snippet;
 	}
 
-	let { stops, status }: Props = $props();
+	let { stops, status, volgendeHref, onder }: Props = $props();
 
-	const jij = {
-		x: `${(JIJ.x / KAART.breedte) * 100}%`,
-		y: `${(JIJ.y / KAART.hoogte) * 100}%`
-	};
+	const pct = (waarde: number, totaal: number) => `${(waarde / totaal) * 100}%`;
 </script>
 
 <div class="kaart">
 	<img class="ondergrond" src={ondergrond} alt="" width={KAART.breedte} height={KAART.hoogte} />
 
-	<span class="jij" style:left={jij.x} style:top={jij.y}>
-		<img src={jijNauwkeurigheid} alt="" width="52" height="52" />
+	<span class="jij" style:left={pct(JIJ.x, KAART.breedte)} style:top={pct(JIJ.y, KAART.hoogte)}>
+		<img src={jijNauwkeurigheid} alt="" width="56" height="56" />
 		<img class="punt" src={jijPunt} alt="" width="20" height="20" />
-		<span class="jij-label">Jij bent hier</span>
+		<span class="visueel-verborgen">Jij bent hier</span>
 	</span>
 
 	<ol class="markers" aria-label="Stops op de kaart">
 		{#each stops as stop (stop.nr)}
-			<StopMarker {stop} status={status(stop)} />
+			{@const s = status(stop)}
+			<StopMarker {stop} status={s} href={s === 'volgende' ? volgendeHref : undefined} />
 		{/each}
 	</ol>
+
+	{#if onder}
+		<div class="onder">{@render onder()}</div>
+	{/if}
 </div>
 
 <style>
 	.kaart {
 		position: relative;
 		width: 100%;
-		aspect-ratio: 345 / 418;
+		aspect-ratio: 345 / 540;
 		overflow: hidden;
-		border: 1.5px solid var(--kleur-lijn);
-		border-radius: 20px;
+		border-radius: 28px;
 	}
 
 	.ondergrond {
@@ -62,8 +68,8 @@
 
 	.jij {
 		position: absolute;
-		width: 52px;
-		height: 52px;
+		width: 56px;
+		height: 56px;
 		translate: -50% -50%;
 	}
 
@@ -73,20 +79,13 @@
 	}
 
 	.jij .punt {
-		inset: 16px;
+		inset: 18px;
 	}
 
-	.jij-label {
+	.onder {
 		position: absolute;
-		left: 40px;
-		top: 32px;
-		padding: 3px 8px;
-		border-radius: 6px;
-		background: var(--kleur-blauw);
-		color: var(--kleur-wit);
-		font-family: var(--font-titel);
-		font-weight: 800;
-		font-size: 11px;
-		white-space: nowrap;
+		right: 12px;
+		bottom: 12px;
+		left: 12px;
 	}
 </style>

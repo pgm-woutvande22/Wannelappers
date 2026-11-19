@@ -30,6 +30,18 @@ export async function lijstAudio(supabase: Supabase): Promise<AudioBestand[]> {
 
 export const MAX_AUDIO_BYTES = 20 * 1024 * 1024;
 
+/** Pad van het welkomstbericht van Wannes in de audio-bucket (beheer via /admin/audio). */
+const INTRO_AUDIO = 'intro.mp3';
+
+/** Publieke URL van het welkomstbericht, of null zonder Supabase-instellingen. */
+export function introAudioUrl(locals: App.Locals): string | null {
+	try {
+		return publiekeUrl(locals.supabase, AUDIO_BUCKET, INTRO_AUDIO);
+	} catch {
+		return null;
+	}
+}
+
 /** Uploadt een audiobestand onder een veilige naam in de audio-bucket. */
 export function uploadAudio(supabase: Supabase, bestand: File) {
 	return upload(supabase, bestand, veiligeBestandsnaam(bestand.name), {

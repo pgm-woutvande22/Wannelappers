@@ -2,55 +2,34 @@
 	interface Props {
 		/** Eén cijfer per stempel; undefined zolang de stempel niet verzameld is. */
 		cijfers: (string | undefined)[];
+		/**
+		 * 'los': vaste vakjes van 64×72 (Gestempeld-scherm).
+		 * 'vol': vakjes die de breedte vullen (Schatkist-kaart op Stempels).
+		 */
+		maat?: 'los' | 'vol';
+		/** Toegankelijke naam van de rij. */
+		label?: string;
 	}
 
-	let { cijfers }: Props = $props();
+	let { cijfers, maat = 'los', label = 'Code voor de schatkist' }: Props = $props();
 
 	const gevonden = $derived(cijfers.filter(Boolean).length);
-	const id = $props.id();
 </script>
 
-<div class="code">
-	<p class="label" id="{id}-label"><span>Code voor</span> <span>de kist</span></p>
-	<ol class="cijfers" aria-labelledby="{id}-label" aria-describedby="{id}-stand">
-		{#each cijfers as cijfer, i (i)}
-			<li class={{ gevonden: cijfer }}>{cijfer ?? '?'}</li>
-		{/each}
-	</ol>
-	<span id="{id}-stand" class="visueel-verborgen">
-		{gevonden} van {cijfers.length} cijfers gevonden
-	</span>
-</div>
+<ol class="code {maat}" aria-label="{label}: {gevonden} van {cijfers.length} cijfers gevonden">
+	{#each cijfers as cijfer, i (i)}
+		<li class={{ gevonden: cijfer }}>
+			{#if cijfer}{cijfer}{:else}<span aria-hidden="true">–</span><span class="visueel-verborgen"
+					>nog niet gevonden</span
+				>{/if}
+		</li>
+	{/each}
+</ol>
 
 <style>
 	.code {
 		display: flex;
-		align-items: center;
-		gap: 8px;
-		padding: 10px 14px;
-		border-radius: var(--radius-knop);
-		background: var(--kleur-groen-licht);
-	}
-
-	.label {
-		flex: 1;
-		font-family: var(--font-titel);
-		font-weight: 800;
-		font-size: 11px;
-		letter-spacing: 1.54px;
-		line-height: 1.3;
-		text-transform: uppercase;
-	}
-
-	.label span {
-		display: block;
-		white-space: nowrap;
-	}
-
-	.cijfers {
-		display: flex;
-		gap: 8px;
-		margin-left: auto;
+		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
@@ -59,18 +38,41 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 44px;
-		height: 46px;
-		border-radius: var(--radius-klein);
 		background: var(--kleur-wit);
-		color: var(--kleur-grijs);
-		font-family: var(--font-titel);
-		font-weight: 900;
-		font-size: 22px;
+		color: var(--kleur-subtiel);
+		font-family: var(--font-basis);
+		font-weight: 500;
+		line-height: 1.12;
 	}
 
 	li.gevonden {
 		background: var(--kleur-blauw);
 		color: var(--kleur-wit);
+	}
+
+	.los {
+		gap: 10px;
+	}
+
+	.los li {
+		width: 64px;
+		height: 72px;
+		border-radius: 20px;
+		font-size: 28px;
+		letter-spacing: -0.56px;
+	}
+
+	.vol {
+		gap: 8px;
+		width: 100%;
+	}
+
+	.vol li {
+		flex: 1 0 0;
+		min-width: 0;
+		height: 60px;
+		border-radius: 18px;
+		font-size: 24px;
+		letter-spacing: -0.48px;
 	}
 </style>

@@ -84,7 +84,7 @@
 	fieldset {
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: 10px;
 		margin: 0;
 		padding: 0;
 		border: none;
@@ -93,7 +93,7 @@
 	/* Een legend telt niet mee in de flex-layout van de fieldset; daarom eigen marge. */
 	legend {
 		padding: 0;
-		margin-bottom: 12px;
+		margin-bottom: 10px;
 	}
 
 	ul {
@@ -104,26 +104,27 @@
 		list-style: none;
 	}
 
+	/* Witte rij op het canvas (Figma v5), zoals het tekstveld erboven. */
 	.kind {
 		display: flex;
 		align-items: center;
 		gap: 12px;
 		height: 60px;
-		padding: 0 8px 0 16px;
-		border: var(--rand-veld) solid var(--kleur-lijn);
-		border-radius: var(--radius-veld);
+		padding: 0 6px 0 18px;
+		border: 2px solid transparent;
+		border-radius: 20px;
 		background: var(--kleur-wit);
 		transition: border-color var(--overgang);
 	}
 
 	.kind:hover {
-		border-color: var(--kleur-grijs);
+		border-color: var(--kleur-track);
 	}
 
 	.kind:focus-within {
 		border-color: var(--kleur-blauw);
-		outline: 3px solid var(--kleur-blauw-licht);
-		outline-offset: 0;
+		outline: 3px solid var(--kleur-blauwtint);
+		outline-offset: 2px;
 	}
 
 	.kind.fout {
@@ -134,7 +135,7 @@
 	label {
 		flex-shrink: 0;
 		width: 56px;
-		color: var(--kleur-grijs);
+		color: var(--kleur-subtiel);
 		font-size: 15px;
 	}
 
@@ -145,10 +146,10 @@
 		padding: 0;
 		border: none;
 		background: none;
-		color: var(--kleur-blauw);
-		font-family: var(--font-titel);
-		font-weight: 800;
-		font-size: 20px;
+		color: var(--kleur-inkt);
+		font-family: var(--font-basis);
+		font-weight: 500;
+		font-size: 18px;
 		cursor: pointer;
 	}
 
@@ -160,32 +161,32 @@
 		display: grid;
 		flex-shrink: 0;
 		place-items: center;
-		width: var(--tik-min);
-		height: var(--tik-min);
+		width: 44px;
+		height: 44px;
 		border: none;
-		border-radius: var(--radius-pil);
-		background: none;
-		color: var(--kleur-grijs);
-		font-size: 16px;
+		border-radius: 50%;
+		background: var(--kleur-canvas);
+		color: var(--kleur-subtiel);
+		font-size: 15px;
 		cursor: pointer;
 		transition: background-color var(--overgang);
 	}
 
 	.verwijder:hover {
-		background: var(--kleur-blauw-licht);
-		color: var(--kleur-blauw);
+		background: var(--kleur-blauwtint);
+		color: var(--kleur-inkt);
 	}
 
 	.toevoegen {
 		align-self: flex-start;
 		min-height: var(--tik-min);
 		padding: 0 16px;
-		border: 2px dashed var(--kleur-lijn);
-		border-radius: var(--radius-pil);
+		border: 2px dashed var(--kleur-track);
+		border-radius: 99px;
 		background: none;
-		color: var(--kleur-blauw);
-		font-family: var(--font-titel);
-		font-weight: 800;
+		color: var(--kleur-inkt);
+		font-family: var(--font-basis);
+		font-weight: 500;
 		font-size: 15px;
 		cursor: pointer;
 		transition: border-color var(--overgang);
@@ -196,8 +197,8 @@
 	}
 
 	.hulp {
-		color: var(--kleur-grijs);
+		color: var(--kleur-subtiel);
 		font-size: 14px;
-		line-height: 1.25;
+		line-height: 1.35;
 	}
 </style>

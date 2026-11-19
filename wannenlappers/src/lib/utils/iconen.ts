@@ -1,33 +1,34 @@
+import hulp22 from '#lib/assets/iconen/hulp-22.svg';
 import hulp24 from '#lib/assets/iconen/hulp-24.svg';
 import kaart24 from '#lib/assets/iconen/kaart-24.svg';
 import kaartje24 from '#lib/assets/iconen/kaartje-24.svg';
-import kist18 from '#lib/assets/iconen/kist-18.svg';
-import kist21 from '#lib/assets/iconen/kist-21.svg';
+import kind16 from '#lib/assets/iconen/kind-16.svg';
+import kist20 from '#lib/assets/iconen/kist-20.svg';
 import kist22 from '#lib/assets/iconen/kist-22.svg';
-import kist32 from '#lib/assets/iconen/kist-32.svg';
-import molen17 from '#lib/assets/iconen/molen-17.svg';
-import molen21 from '#lib/assets/iconen/molen-21.svg';
-import molen30 from '#lib/assets/iconen/molen-30.svg';
+import molen20 from '#lib/assets/iconen/molen-20.svg';
 import pen20 from '#lib/assets/iconen/pen-20.svg';
+import pijl22 from '#lib/assets/iconen/pijl-22.svg';
 import pin22 from '#lib/assets/iconen/pin-22.svg';
-import play28 from '#lib/assets/iconen/play-28.svg';
+import play18 from '#lib/assets/iconen/play-18.svg';
 import slot15 from '#lib/assets/iconen/slot-15.svg';
 import slot16 from '#lib/assets/iconen/slot-16.svg';
+import sluit20 from '#lib/assets/iconen/sluit-20.svg';
+import speaker20 from '#lib/assets/iconen/speaker-20.svg';
 import speaker22 from '#lib/assets/iconen/speaker-22.svg';
-import stempel22 from '#lib/assets/iconen/stempel-22.svg';
-import verrekijker17 from '#lib/assets/iconen/verrekijker-17.svg';
+import stempel18 from '#lib/assets/iconen/stempel-18.svg';
+import stempel24 from '#lib/assets/iconen/stempel-24.svg';
+import terug22 from '#lib/assets/iconen/terug-22.svg';
+import thuis24 from '#lib/assets/iconen/thuis-24.svg';
 import verrekijker24 from '#lib/assets/iconen/verrekijker-24.svg';
-import verrekijker28 from '#lib/assets/iconen/verrekijker-28.svg';
-import vinkje18 from '#lib/assets/iconen/vinkje-18.svg';
-import vlecht17 from '#lib/assets/iconen/vlecht-17.svg';
-import vlecht21 from '#lib/assets/iconen/vlecht-21.svg';
-import vlecht30 from '#lib/assets/iconen/vlecht-30.svg';
-import wind17 from '#lib/assets/iconen/wind-17.svg';
-import wind21 from '#lib/assets/iconen/wind-21.svg';
-import wind30 from '#lib/assets/iconen/wind-30.svg';
+import verrekijker26 from '#lib/assets/iconen/verrekijker-26.svg';
+import vinkje20 from '#lib/assets/iconen/vinkje-20.svg';
+import vlecht20 from '#lib/assets/iconen/vlecht-20.svg';
+import volwassene16 from '#lib/assets/iconen/volwassene-16.svg';
+import wandel18 from '#lib/assets/iconen/wandel-18.svg';
+import wind20 from '#lib/assets/iconen/wind-20.svg';
 
 /*
- * Iconen uit Figma ("Design · v4"), per vorm in de groottes die het ontwerp gebruikt.
+ * Iconen uit Figma ("Design · v5"; kaartje, pen, pin en slot nog uit v4), per vorm in de groottes die het ontwerp gebruikt.
  * De SVG wordt als CSS-mask gebruikt, zodat de kleur van de tekst (currentColor) bepaalt
  * welke kleur het icoon krijgt. Gegenereerd uit de Figma-insets; niet met de hand aanpassen.
  */
@@ -45,61 +46,76 @@ export interface IcoonData {
 
 export const iconen = {
 	hulp: [
-		{ src: hulp24, vak: 24, breedte: 20, hoogte: 20, links: 2.000, boven: 2.000 }
+		{ src: hulp22, vak: 22, breedte: 18.25, hoogte: 18.25, links: 1.876, boven: 1.876 },
+		{ src: hulp24, vak: 24, breedte: 19.75, hoogte: 19.75, links: 2.125, boven: 2.125 }
 	],
 	kaart: [
-		{ src: kaart24, vak: 24, breedte: 20.4, hoogte: 18.4, links: 1.800, boven: 2.800 }
+		{ src: kaart24, vak: 24, breedte: 19.75, hoogte: 17.75, links: 2.125, boven: 3.126 }
 	],
 	kaartje: [
 		{ src: kaartje24, vak: 24, breedte: 20, hoogte: 16, links: 2.000, boven: 4.000 }
 	],
+	kind: [
+		{ src: kind16, vak: 16, breedte: 13.75, hoogte: 13.75, links: 1.125, boven: 1.125 }
+	],
 	kist: [
-		{ src: kist18, vak: 18, breedte: 14.75, hoogte: 12.875, links: 1.625, boven: 3.125 },
-		{ src: kist21, vak: 21, breedte: 17.075, hoogte: 14.8875, links: 1.962, boven: 3.713 },
-		{ src: kist22, vak: 22, breedte: 17.5833, hoogte: 15.2917, links: 2.208, boven: 4.042 },
-		{ src: kist32, vak: 32, breedte: 24.4667, hoogte: 21.1333, links: 3.767, boven: 6.433 }
+		{ src: kist20, vak: 20, breedte: 15.9167, hoogte: 13.8333, links: 2.040, boven: 3.709 },
+		{ src: kist22, vak: 22, breedte: 17.3333, hoogte: 15.0417, links: 2.333, boven: 4.168 }
 	],
 	molen: [
-		{ src: molen17, vak: 17, breedte: 11.2083, hoogte: 14.75, links: 2.896, boven: 1.125 },
-		{ src: molen21, vak: 21, breedte: 13.575, hoogte: 17.95, links: 3.713, boven: 1.525 },
-		{ src: molen30, vak: 30, breedte: 18.05, hoogte: 24.3, links: 5.975, boven: 2.850 }
+		{ src: molen20, vak: 20, breedte: 12.5833, hoogte: 16.75, links: 3.709, boven: 1.626 }
 	],
 	pen: [
 		{ src: pen20, vak: 20, breedte: 14.5, hoogte: 14.5, links: 2.334, boven: 3.166 }
+	],
+	pijl: [
+		{ src: pijl22, vak: 22, breedte: 14.5833, hoogte: 12.75, links: 3.707, boven: 4.625 }
 	],
 	pin: [
 		{ src: pin22, vak: 22, breedte: 14.8333, hoogte: 18.9583, links: 3.583, boven: 1.292 }
 	],
 	play: [
-		{ src: play28, vak: 28, breedte: 14.25, hoogte: 17.1667, links: 8.332, boven: 5.417 }
+		{ src: play18, vak: 18, breedte: 9.625, hoogte: 11.5, links: 5.124, boven: 3.251 }
 	],
 	slot: [
 		{ src: slot15, vak: 15, breedte: 10.325, hoogte: 12.5125, links: 2.337, boven: 1.401 },
 		{ src: slot16, vak: 16, breedte: 10.6667, hoogte: 13, links: 2.667, boven: 1.667 }
 	],
+	sluit: [
+		{ src: sluit20, vak: 20, breedte: 11.75, hoogte: 11.75, links: 4.125, boven: 4.125 }
+	],
 	speaker: [
-		{ src: speaker22, vak: 22, breedte: 17.0342, hoogte: 13.9167, links: 2.667, boven: 4.042 }
+		{ src: speaker20, vak: 20, breedte: 15.4175, hoogte: 12.5834, links: 2.459, boven: 3.709 },
+		{ src: speaker22, vak: 22, breedte: 16.7842, hoogte: 13.6667, links: 2.793, boven: 4.168 }
 	],
 	stempel: [
-		{ src: stempel22, vak: 22, breedte: 14.8333, hoogte: 17.5833, links: 3.583, boven: 1.750 }
+		{ src: stempel18, vak: 18, breedte: 13, hoogte: 15.25, links: 2.500, boven: 1.375 },
+		{ src: stempel24, vak: 24, breedte: 16.75, hoogte: 19.75, links: 3.626, boven: 2.125 }
+	],
+	terug: [
+		{ src: terug22, vak: 22, breedte: 7.25, hoogte: 12.75, links: 7.375, boven: 4.625 }
+	],
+	thuis: [
+		{ src: thuis24, vak: 24, breedte: 17.75, hoogte: 16.75, links: 3.126, boven: 4.125 }
 	],
 	verrekijker: [
-		{ src: verrekijker17, vak: 17, breedte: 14.75, hoogte: 11.9167, links: 1.125, boven: 2.896 },
-		{ src: verrekijker24, vak: 24, breedte: 20, hoogte: 16, links: 2.000, boven: 4.500 },
-		{ src: verrekijker28, vak: 28, breedte: 23.2, hoogte: 18.5333, links: 2.400, boven: 5.317 }
+		{ src: verrekijker24, vak: 24, breedte: 19.75, hoogte: 15.75, links: 2.125, boven: 4.626 },
+		{ src: verrekijker26, vak: 26, breedte: 21.25, hoogte: 16.9167, links: 2.374, boven: 5.084 }
 	],
 	vinkje: [
-		{ src: vinkje18, vak: 18, breedte: 13.5, hoogte: 10.5, links: 2.250, boven: 3.750 }
+		{ src: vinkje20, vak: 20, breedte: 13.8667, hoogte: 10.5333, links: 3.066, boven: 4.734 }
 	],
 	vlecht: [
-		{ src: vlecht17, vak: 17, breedte: 14.75, hoogte: 13.6875, links: 1.125, boven: 1.834 },
-		{ src: vlecht21, vak: 21, breedte: 17.95, hoogte: 16.6375, links: 1.525, boven: 2.401 },
-		{ src: vlecht30, vak: 30, breedte: 24.3, hoogte: 22.425, links: 2.850, boven: 4.101 }
+		{ src: vlecht20, vak: 20, breedte: 16.75, hoogte: 15.5, links: 1.626, boven: 2.460 }
+	],
+	volwassene: [
+		{ src: volwassene16, vak: 16, breedte: 11.75, hoogte: 12.75, links: 2.125, boven: 1.793 }
+	],
+	wandel: [
+		{ src: wandel18, vak: 18, breedte: 7.7503, hoogte: 15.6252, links: 5.875, boven: 1.000 }
 	],
 	wind: [
-		{ src: wind17, vak: 17, breedte: 14.75, hoogte: 12.9792, links: 1.125, boven: 1.125 },
-		{ src: wind21, vak: 21, breedte: 17.95, hoogte: 15.7625, links: 1.525, boven: 1.525 },
-		{ src: wind30, vak: 30, breedte: 24.3, hoogte: 21.175, links: 2.850, boven: 2.849 }
+		{ src: wind20, vak: 20, breedte: 16.75, hoogte: 14.6667, links: 1.626, boven: 1.626 }
 	]
 } satisfies Record<string, IcoonData[]>;
 

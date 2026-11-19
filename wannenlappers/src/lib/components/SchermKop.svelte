@@ -1,17 +1,16 @@
 <script lang="ts">
 	interface Props {
-		/** Klein groen label boven de titel. */
+		/** Klein grijs label boven de titel, bv. "Voor we starten". */
 		label?: string;
 		titel: string;
 		intro?: string;
-		/** Kleinere titel, voor schermen met voortgangsbalk. */
-		klein?: boolean;
 	}
 
-	let { label, titel, intro, klein = false }: Props = $props();
+	let { label, titel, intro }: Props = $props();
 </script>
 
-<header class={['kop', { klein }]}>
+<!-- Zoals de koppen in Figma v5 (Kaart, Stempels): grote titel, grijze uitleg. -->
+<header class="kop">
 	{#if label}
 		<p class="label">{label}</p>
 	{/if}
@@ -25,33 +24,26 @@
 	.kop {
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
 	}
 
 	.label {
-		color: var(--kleur-groen-donker);
-		font-family: var(--font-titel);
-		font-weight: 800;
-		font-size: 12px;
-		letter-spacing: 1.68px;
-		text-transform: uppercase;
+		margin-bottom: 4px;
+		color: var(--kleur-subtiel);
+		font-size: 14px;
+		line-height: 1.35;
 	}
 
 	h1 {
-		font-family: var(--font-titel);
-		font-weight: 900;
+		font-weight: 500;
 		font-size: 32px;
-		line-height: 1.1;
-	}
-
-	.klein h1 {
-		font-size: 24px;
-		line-height: 1.15;
+		line-height: 1.12;
+		letter-spacing: -0.64px;
 	}
 
 	.intro {
-		color: var(--kleur-grijs);
-		font-size: 17px;
-		line-height: 1.3;
+		margin-top: 8px;
+		color: var(--kleur-subtiel);
+		font-size: 16px;
+		line-height: 1.35;
 	}
 </style>

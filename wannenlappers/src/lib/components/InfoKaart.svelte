@@ -8,14 +8,13 @@
 		voor?: Snippet;
 		/** Rechts van de tekst, bv. een knop. */
 		na?: Snippet;
-		/** Kleinere opvulling en titel. */
-		compact?: boolean;
 	}
 
-	let { titel, onderschrift, voor, na, compact = false }: Props = $props();
+	let { titel, onderschrift, voor, na }: Props = $props();
 </script>
 
-<div class={['info', { compact }]}>
+<!-- Wit kaartje in de stijl van Figma v5 (zoals "Volgende stop" op de kaart). -->
+<div class="info">
 	{#if voor}{@render voor()}{/if}
 	<div class="tekst">
 		<p class="titel">{titel}</p>
@@ -30,38 +29,28 @@
 	.info {
 		display: flex;
 		align-items: center;
-		gap: 14px;
-		padding: 16px;
-		border-radius: var(--radius-kaart);
-		background: var(--kleur-groen-licht);
-	}
-
-	.compact {
 		gap: 12px;
-		padding: 12px;
-		border-radius: var(--radius-knop);
+		padding: 12px 12px 12px 18px;
+		border-radius: 24px;
+		background: var(--kleur-wit);
 	}
 
 	.tekst {
 		display: flex;
 		flex: 1;
 		flex-direction: column;
-		gap: 2px;
+		gap: 1px;
 		min-width: 0;
+		line-height: 1.35;
 	}
 
 	.titel {
-		font-family: var(--font-titel);
-		font-weight: 800;
+		font-weight: 500;
 		font-size: 17px;
 	}
 
-	.compact .titel {
-		font-weight: 900;
-	}
-
 	.onderschrift {
-		color: var(--kleur-grijs);
-		font-size: 15px;
+		color: var(--kleur-subtiel);
+		font-size: 14px;
 	}
 </style>

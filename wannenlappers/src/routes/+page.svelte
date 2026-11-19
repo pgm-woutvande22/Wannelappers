@@ -19,7 +19,7 @@
 	);
 
 	const stappen: Uitleg[] = [
-		{ icoon: 'pin', tekst: 'Volg de kaart naar elke stop.' },
+		{ icoon: 'kaart', tekst: 'Volg de kaart naar elke stop.' },
 		{ icoon: 'speaker', tekst: 'Luister naar de opdracht en zoek samen.' },
 		{ icoon: 'stempel', tekst: 'Vul de code in en verdien een stempel.' },
 		{ icoon: 'kist', tekst: 'Met 4 stempels open je de schatkist.' }
@@ -30,41 +30,33 @@
 	<title>De gescheurde wan</title>
 </svelte:head>
 
-<Scherm ruimte={18}>
-	{#snippet kop()}
-		<TochtKop
-			lint="Stempeltocht"
-			titel="De gescheurde wan"
-			beschrijving="Help Wannes Laps zijn wan te lappen. Een stempeltocht voor het hele gezin in het Wannenlappersbos."
-			kenmerken={['6 stops', '1,8 km', '± 1 uur', '4–12 jaar']}
-		/>
-	{/snippet}
+<Scherm>
+	<TochtKop
+		soort="Stempeltocht"
+		plaats="Wannenlappersbos · Zingem"
+		titel="De gescheurde wan"
+		beschrijving="Help Wannes Laps zijn wan te lappen. Een stempeltocht voor het hele gezin."
+		kenmerken={['6 stops', '1,8 km', '± 1 uur', '4–12 jaar']}
+	/>
 
 	{#if data.introUrl}
 		{@const introUrl = data.introUrl}
-		<div class="bericht">
-			<InfoKaart titel="Bericht van Wannes" {onderschrift}>
-				{#snippet na()}
-					<AudioSpeler
-						src={introUrl}
-						onderwerp="het bericht van Wannes"
-						preload="metadata"
-						bind:duur
-					/>
-				{/snippet}
-			</InfoKaart>
-		</div>
+		<InfoKaart titel="Bericht van Wannes" {onderschrift}>
+			{#snippet na()}
+				<AudioSpeler
+					src={introUrl}
+					onderwerp="het bericht van Wannes"
+					kleur="blauw"
+					preload="metadata"
+					bind:duur
+				/>
+			{/snippet}
+		</InfoKaart>
 	{/if}
 
 	<UitlegLijst titel="Zo werkt het" {stappen} />
 
 	{#snippet actie()}
-		<Knop href={resolve('/team')}>Start de zoektocht</Knop>
+		<Knop href={resolve('/team')} icoon="play">Start de zoektocht</Knop>
 	{/snippet}
 </Scherm>
-
-<style>
-	.bericht {
-		padding-top: 12px;
-	}
-</style>

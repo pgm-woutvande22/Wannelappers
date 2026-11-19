@@ -4,21 +4,14 @@
 	interface Props {
 		/** Met onsubmit wordt de inhoud een formulier. */
 		onsubmit?: (event: SubmitEvent) => void;
-		/** Volle breedte bovenaan, zonder zijmarge (bv. de blauwe kop op het startscherm). */
-		kop?: Snippet;
 		/** Inhoud die onderaan het scherm staat, bv. de hoofdknop. */
 		actie?: Snippet;
-		/**
-		 * true binnen een layout die zelf al <main>, kop en tabbalk heeft:
-		 * dan vult het scherm de beschikbare hoogte in plaats van het hele venster.
-		 */
-		ingebed?: boolean;
 		/** Ruimte tussen de blokken. */
 		ruimte?: number;
 		children: Snippet;
 	}
 
-	let { onsubmit, kop, actie, ingebed = false, ruimte, children }: Props = $props();
+	let { onsubmit, actie, ruimte, children }: Props = $props();
 </script>
 
 {#snippet inhoud()}
@@ -28,18 +21,14 @@
 	{/if}
 {/snippet}
 
-<svelte:element
-	this={ingebed ? 'div' : 'main'}
-	class={['scherm', { ingebed }]}
-	style:--ruimte={ruimte === undefined ? undefined : `${ruimte}px`}
->
-	{#if kop}{@render kop()}{/if}
+<!-- Schermen buiten de tocht (start, team) in de stijl van Figma v5: canvas, Figtree. -->
+<main class="scherm" style:--ruimte={ruimte === undefined ? undefined : `${ruimte}px`}>
 	{#if onsubmit}
 		<form class="inhoud" {onsubmit} novalidate>{@render inhoud()}</form>
 	{:else}
 		<div class="inhoud">{@render inhoud()}</div>
 	{/if}
-</svelte:element>
+</main>
 
 <style>
 	.scherm {
@@ -48,28 +37,28 @@
 		max-width: 393px;
 		min-height: 100dvh;
 		margin: 0 auto;
+		background: var(--kleur-canvas);
+		color: var(--kleur-inkt);
+		font-family: var(--font-basis);
 	}
 
-	.scherm.ingebed {
-		flex: 1;
-		width: 100%;
-		min-height: 0;
+	/* Ook naast de smalle kolom het canvas, op een breed scherm. */
+	:global(body:has(.scherm)) {
+		background: var(--kleur-canvas);
 	}
 
 	.inhoud {
 		display: flex;
 		flex: 1;
 		flex-direction: column;
-		gap: var(--ruimte, var(--ruimte-blok));
-		padding: 12px var(--ruimte-scherm) 34px;
-	}
-
-	.ingebed .inhoud {
-		padding: 0 var(--ruimte-scherm) 12px;
+		gap: var(--ruimte, 16px);
+		padding: calc(16px + env(safe-area-inset-top)) 24px calc(34px + env(safe-area-inset-bottom));
 	}
 
 	.actie {
+		display: flex;
+		flex-direction: column;
 		margin-top: auto;
-		padding-top: var(--ruimte-blok);
+		padding-top: 8px;
 	}
 </style>

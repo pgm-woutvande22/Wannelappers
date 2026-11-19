@@ -31,6 +31,49 @@
 				>
 			</div>
 
+			{#if stop.stempel}
+				<form
+					class="code"
+					method="POST"
+					action="?/zetCode"
+					use:enhance={() =>
+						async ({ update }) => update({ reset: false })}
+				>
+					<input type="hidden" name="stop_nr" value={stop.nr} />
+					<label for="code-{stop.nr}">Code voor de stempel</label>
+					<input
+						id="code-{stop.nr}"
+						name="code"
+						maxlength={20}
+						autocomplete="off"
+						value={stop.code}
+						placeholder="bv. 4721"
+						aria-describedby="code-hulp-{stop.nr}"
+					/>
+					<label for="uitleg-{stop.nr}">Uitleg</label>
+					<input
+						id="uitleg-{stop.nr}"
+						class="uitleg"
+						name="uitleg"
+						maxlength={200}
+						autocomplete="off"
+						value={stop.uitleg}
+						placeholder="bv. Het schermpje hangt naast de verrekijker."
+					/>
+					<button class="knop secundair klein" type="submit">Bewaar code</button>
+					<p id="code-hulp-{stop.nr}" class="hulp">
+						{#if form && 'codeOpgeslagen' in form && form.codeOpgeslagen === stop.nr}
+							<span role="status">Opgeslagen.</span>
+						{:else if !stop.code}
+							Nog geen code: de kinderen zien dan geen knop "We hebben de code".
+						{:else}
+							Hoofdletters en spaties maken niet uit. Alleen cijfers = cijfertoetsenbord. De uitleg
+							verschijnt in het codepaneel, voor de volwassene.
+						{/if}
+					</p>
+				</form>
+			{/if}
+
 			{#if stop.oefeningen.length === 0}
 				<p class="leeg">Nog geen oefeningen bij deze stop.</p>
 			{:else}
@@ -93,6 +136,28 @@
 		flex-direction: column;
 		gap: 16px;
 		max-width: 1100px;
+	}
+
+	.code {
+		display: grid;
+		grid-template-columns: auto 140px auto 1fr auto;
+		gap: 12px;
+		align-items: center;
+		padding: 12px 16px;
+		border-radius: var(--radius-klein);
+		background: var(--kleur-blauw-licht);
+	}
+
+	.code label {
+		font-family: var(--font-titel);
+		font-weight: 800;
+		font-size: 14px;
+	}
+
+	.code .hulp {
+		grid-column: 1 / -1;
+		color: var(--kleur-grijs);
+		font-size: 13px;
 	}
 
 	header,

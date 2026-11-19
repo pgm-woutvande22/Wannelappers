@@ -23,9 +23,11 @@ ul {
 
 /* Label boven een formulierveld of keuzegroep. */
 .veldlabel {
-	font-family: var(--font-titel);
-	font-weight: 800;
+	color: var(--kleur-inkt);
+	font-family: var(--font-basis);
+	font-weight: 500;
 	font-size: 17px;
+	line-height: 1.35;
 }
 
 /* Wel voor schermlezers, niet zichtbaar. */

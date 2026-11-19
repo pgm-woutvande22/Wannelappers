@@ -19,7 +19,20 @@
 	--kleur-fout: #b42318;
 	--kleur-fout-licht: #fdecea;
 
-	/* Typografie (afgeleid uit de schermen, geen Figma-variabelen) */
+	/* Design v5 (Figma "Design · v5"): tocht-schermen en gedeelde componenten */
+	--kleur-canvas: #f3f3ef;
+	--kleur-inkt: #0e1b28;
+	--kleur-subtiel: #6b7480;
+	--kleur-groentint: #e2ecd7;
+	--kleur-blauwtint: #dce6ef;
+	--kleur-track: #e7e7e2;
+	--kleur-schaduw: rgb(13 26 41 / 0.08);
+	--kleur-schaduw-marker: rgb(13 26 41 / 0.12);
+	--kleur-voortgang-leeg: rgb(14 27 40 / 0.14);
+	--kleur-overlay: rgb(14 27 40 / 0.4);
+	--font-basis: 'Figtree', system-ui, sans-serif;
+
+	/* Typografie v4 (start- en teamscherm) */
 	--font-titel: 'Nunito', system-ui, sans-serif;
 	--font-tekst: 'Carlito', 'Calibri', system-ui, sans-serif;
 

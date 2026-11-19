@@ -14,6 +14,8 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 			: (opties.stops[0]?.nr ?? 0),
 		titel: '',
 		tekst: '',
+		stappen: [],
+		hint: '',
 		audio_pad: null,
 		volgorde: 0,
 		actief: true

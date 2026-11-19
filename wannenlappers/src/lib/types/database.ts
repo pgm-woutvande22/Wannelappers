@@ -22,6 +22,9 @@ export type OefeningRij = {
 	stop_nr: number;
 	titel: string;
 	tekst: string;
+	stappen: string[];
+	/** Optionele hint achter "Hint nodig?". */
+	hint: string;
 	audio_pad: string | null;
 	volgorde: number;
 	actief: boolean;
@@ -39,6 +42,24 @@ export type FotoRij = {
 	volgorde: number;
 	aangemaakt_op: string;
 };
+
+export type StopCodeRij = {
+	stop_nr: number;
+	code: string;
+	/** Uitleg voor de volwassene in het codepaneel. */
+	uitleg: string;
+};
+
+/** Wat de app over de code van een stop weet (nooit de code zelf). */
+export type CodeInfo = {
+	soort: CodeSoort;
+	lengte: number;
+	uitleg: string;
+};
+
+/** 'geen' als de stop nog geen code heeft. */
+export type CodeSoort = 'geen' | 'cijfers' | 'tekst';
+export type CodeResultaat = 'juist' | 'fout' | 'geen';
 
 export type TochtRij = {
 	id: string;
@@ -77,7 +98,7 @@ export type Database = {
 				Row: OefeningRij;
 				Insert: Optioneel<
 					Omit<OefeningRij, 'aangemaakt_op' | 'bijgewerkt_op'>,
-					'id' | 'tekst' | 'audio_pad' | 'volgorde' | 'actief'
+					'id' | 'tekst' | 'stappen' | 'hint' | 'audio_pad' | 'volgorde' | 'actief'
 				>;
 				Update: Partial<Omit<OefeningRij, 'id' | 'aangemaakt_op' | 'bijgewerkt_op'>>;
 				Relationships: [
@@ -101,6 +122,20 @@ export type Database = {
 						isOneToOne: false;
 						referencedRelation: 'oefeningen';
 						referencedColumns: ['id'];
+					}
+				];
+			};
+			stop_codes: {
+				Row: StopCodeRij;
+				Insert: Optioneel<StopCodeRij, 'uitleg'>;
+				Update: Partial<StopCodeRij>;
+				Relationships: [
+					{
+						foreignKeyName: 'stop_codes_stop_nr_fkey';
+						columns: ['stop_nr'];
+						isOneToOne: true;
+						referencedRelation: 'stops';
+						referencedColumns: ['nr'];
 					}
 				];
 			};
@@ -134,6 +169,8 @@ export type Database = {
 		Functions: {
 			start_tocht: { Args: { leeftijden: number[] }; Returns: string };
 			beeindig_tocht: { Args: { tocht: string }; Returns: undefined };
+			code_info: { Args: { stop: number }; Returns: CodeInfo };
+			controleer_code: { Args: { stop: number; poging: string }; Returns: CodeResultaat };
 		};
 		Enums: Record<string, never>;
 		CompositeTypes: Record<string, never>;

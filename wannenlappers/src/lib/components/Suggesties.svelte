@@ -23,32 +23,34 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		gap: 6px;
+		gap: 8px;
 		font-size: 14px;
-		font-weight: 700;
+		line-height: 1.35;
 	}
 
 	.label {
-		color: var(--kleur-grijs);
+		color: var(--kleur-subtiel);
 	}
 
+	/* Witte pilletjes zoals de Chip uit Figma v5; gekozen = blauw zoals de navigatie. */
 	button {
 		min-height: var(--tik-min);
-		padding: 0 12px;
-		border: var(--rand-veld) solid transparent;
-		border-radius: var(--radius-pil);
-		background: var(--kleur-blauw-licht);
-		color: var(--kleur-blauw);
-		font: inherit;
+		padding: 0 14px;
+		border: none;
+		border-radius: 99px;
+		background: var(--kleur-wit);
+		color: var(--kleur-inkt);
+		font-family: var(--font-basis);
+		font-weight: 500;
+		font-size: 14px;
 		cursor: pointer;
 		transition:
-			border-color var(--overgang),
 			background-color var(--overgang),
 			transform var(--overgang);
 	}
 
 	button:hover {
-		border-color: var(--kleur-blauw);
+		background: var(--kleur-blauwtint);
 	}
 
 	button:active {

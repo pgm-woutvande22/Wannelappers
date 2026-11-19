@@ -1,8 +1,6 @@
 <script lang="ts">
-	import cirkelLeeg from '#lib/assets/cirkel-leeg.svg';
-	import cirkelVolgende from '#lib/assets/cirkel-volgende.svg';
 	import Icoon from '#lib/components/Icoon.svelte';
-	import Vak from '#lib/components/Vak.svelte';
+	import Stempel from '#lib/components/Stempel.svelte';
 	import type { Stop } from '#lib/data/stops.js';
 	import type { StopStatus } from '#lib/state/tocht.svelte.js';
 
@@ -13,106 +11,96 @@
 
 	let { stop, status }: Props = $props();
 
-	const kleur = $derived(
-		status === 'verzameld' ? 'blauw' : status === 'volgende' ? 'groen' : 'licht'
+	/** "120 m · ± 3 min" -> "120 m" */
+	const meters = $derived(stop.afstand?.split('·')[0].trim());
+	const onderschrift = $derived(
+		status === 'verzameld'
+			? 'Gestempeld'
+			: status === 'volgende'
+				? meters
+					? `Volgende · ${meters}`
+					: 'Volgende'
+				: `Stop ${stop.nr}`
 	);
 </script>
 
-<Vak titel="#{stop.nr} {stop.naam}" {kleur} compact gecentreerd>
-	{#snippet extra()}
-		{#if status === 'volgende'}Volgende{/if}
-	{/snippet}
-
-	{#if status === 'verzameld'}
-		<span class="inkt" role="img" aria-label="Gestempeld">
-			{#if stop.inktstempel}
-				<img src={stop.inktstempel} alt="" width="84" height="84" />
-			{:else}
-				<span class="ring"><Icoon naam={stop.icoon} maat={30} /></span>
-			{/if}
-			<span class="inkt-tekst boven">Stop {stop.nr}</span>
-			<span class="inkt-tekst onder">{stop.naam}</span>
-		</span>
-	{:else}
-		<span class={['leeg', status]} role="img" aria-label={status === 'volgende' ? 'Volgende stempel' : 'Nog geen stempel'}>
-			<img src={status === 'volgende' ? cirkelVolgende : cirkelLeeg} alt="" width="80" height="80" />
-			<Icoon naam={stop.icoon} maat={30} />
-		</span>
-	{/if}
-</Vak>
+<!-- Figma v5 "Stempel · …": wit kaartje met vlak (stempel of lege ring) en naam. -->
+<article class="vak">
+	<div class={['vlak', status]}>
+		{#if status === 'verzameld'}
+			<Stempel {stop} maat={104} draai={-8} />
+		{:else}
+			<span class="ring"><Icoon naam={stop.icoon} maat={24} /></span>
+		{/if}
+	</div>
+	<div class="tekst">
+		<h2>{stop.naam}</h2>
+		<p class={status}>{onderschrift}</p>
+	</div>
+</article>
 
 <style>
-	.inkt,
-	.leeg {
-		position: relative;
+	.vak {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		gap: 12px;
+		min-width: 0;
+		padding: 16px;
+		border-radius: 28px;
+		background: var(--kleur-wit);
+	}
+
+	.vlak {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 96px;
-		height: 96px;
+		height: 120px;
+		border-radius: 22px;
+		background: var(--kleur-canvas);
 	}
 
-	.leeg {
-		width: 92px;
-		height: 92px;
-		color: var(--kleur-lijn);
+	.vlak.verzameld {
+		background: none;
 	}
 
-	.leeg.volgende {
-		color: var(--kleur-groen-donker);
-	}
-
-	.leeg img {
-		position: absolute;
-		inset: 6px;
-	}
-
-	.leeg :global(.icoon) {
-		position: relative;
-	}
-
-	/* Inktstempel licht gedraaid, zoals een echte stempel. */
-	.inkt {
-		rotate: 8deg;
-		color: var(--kleur-blauw);
-	}
-
-	.inkt img,
 	.ring {
-		position: absolute;
-		inset: 6px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		width: 84px;
 		height: 84px;
-	}
-
-	.ring {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border: 3px double var(--kleur-blauw);
+		border: 2px dashed currentColor;
 		border-radius: 50%;
-		opacity: 0.9;
+		color: var(--kleur-subtiel);
+		opacity: 0.6;
 	}
 
-	.inkt-tekst {
-		position: absolute;
-		left: 50%;
-		translate: -50% 0;
-		font-family: var(--font-titel);
-		font-weight: 900;
-		text-transform: uppercase;
-		white-space: nowrap;
+	.volgende .ring {
+		color: var(--kleur-groen-donker);
+		opacity: 1;
 	}
 
-	.boven {
-		top: 19px;
-		font-size: 7.2px;
-		letter-spacing: 1px;
+	.tekst {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		font-family: var(--font-basis);
+		line-height: 1.35;
 	}
 
-	.onder {
-		top: 61px;
-		font-size: 6.2px;
-		letter-spacing: 0.87px;
+	h2 {
+		color: var(--kleur-inkt);
+		font-weight: 500;
+		font-size: 16px;
+	}
+
+	p {
+		color: var(--kleur-subtiel);
+		font-size: 14px;
+	}
+
+	p.verzameld {
+		color: var(--kleur-groen-donker);
 	}
 </style>

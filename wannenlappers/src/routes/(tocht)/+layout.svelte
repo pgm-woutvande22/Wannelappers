@@ -1,10 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
-	import TabBalk, { type Tab } from '#lib/components/TabBalk.svelte';
-	import Voortgang from '#lib/components/Voortgang.svelte';
-	import { stops } from '#lib/data/stops.js';
-	import { team } from '#lib/state/team.svelte.js';
 	import { tocht } from '#lib/state/tocht.svelte.js';
 	import type { LayoutProps } from './$types';
 
@@ -21,40 +16,24 @@
 			body: JSON.stringify({ id: tocht.id })
 		}).catch(() => {});
 	});
-
-	const tabs: Tab[] = [
-		{ label: 'Kaart', icoon: 'kaart', href: resolve('/(tocht)/kaart') },
-		{ label: 'Stempelkaart', icoon: 'kaartje', href: resolve('/(tocht)/stempelkaart') },
-		// TODO: href toevoegen zodra het hulpscherm bestaat.
-		{ label: 'Hulp', icoon: 'hulp' }
-	];
 </script>
 
+<!-- Figma v5: alle tocht-schermen staan op het canvas, in Figtree. -->
 <div class="tocht">
-	<Voortgang
-		teamnaam={team.naam || 'Jullie team'}
-		{stops}
-		volgende={tocht.volgende}
-		status={(s) => tocht.status(s)}
-	/>
-	<main>
-		{@render children()}
-	</main>
-	<TabBalk {tabs} actief={page.url.pathname} />
+	{@render children()}
 </div>
 
 <style>
 	.tocht {
-		display: flex;
-		flex-direction: column;
-		max-width: 393px;
 		min-height: 100dvh;
-		margin: 0 auto;
+		background: var(--kleur-canvas);
+		color: var(--kleur-inkt);
+		font-family: var(--font-basis);
 	}
 
-	main {
-		display: flex;
-		flex: 1;
-		flex-direction: column;
+	/* Op een breed scherm: telefoonbreedte in het midden. */
+	.tocht > :global(*) {
+		max-width: 393px;
+		margin-inline: auto;
 	}
 </style>

@@ -1,6 +1,13 @@
 <script lang="ts">
 	import AdminVeld from '#lib/components/admin/AdminVeld.svelte';
-	import type { OefeningFouten, OefeningInvoer } from '#lib/utils/oefeningFormulier.js';
+	import {
+		MAX_HINT_TEKENS,
+		MAX_INTRO_TEKENS,
+		MAX_STAP_TEKENS,
+		MAX_STAPPEN,
+		type OefeningFouten,
+		type OefeningInvoer
+	} from '#lib/utils/oefeningFormulier.js';
 
 	interface Props {
 		waarden: OefeningInvoer;
@@ -45,12 +52,33 @@
 </AdminVeld>
 
 <AdminVeld
-	label="Tekst"
-	hulp="Wat de kinderen lezen bij deze stop. Laat een lege regel tussen alinea's."
+	label="Inleiding"
+	hulp="Max. twee korte zinnen ({MAX_INTRO_TEKENS} tekens). Gezinnen lezen dit staand, buiten in de zon."
 	fout={fouten.tekst}
 >
 	{#snippet children(attr)}
-		<textarea {...attr} name="tekst" rows="8">{waarden.tekst}</textarea>
+		<textarea {...attr} name="tekst" rows="3" maxlength={MAX_INTRO_TEKENS}>{waarden.tekst}</textarea
+		>
+	{/snippet}
+</AdminVeld>
+
+<AdminVeld
+	label="Stappen"
+	hulp="Eén stap per regel, zonder nummer: de app nummert zelf. Max. {MAX_STAPPEN} stappen van {MAX_STAP_TEKENS} tekens."
+	fout={fouten.stappen}
+>
+	{#snippet children(attr)}
+		<textarea {...attr} name="stappen" rows="5">{waarden.stappen.join('\n')}</textarea>
+	{/snippet}
+</AdminVeld>
+
+<AdminVeld
+	label="Hint"
+	hulp="Optioneel. Verschijnt achter de knop &quot;Hint nodig?&quot; in de app. Max. {MAX_HINT_TEKENS} tekens."
+	fout={fouten.hint}
+>
+	{#snippet children(attr)}
+		<textarea {...attr} name="hint" rows="2" maxlength={MAX_HINT_TEKENS}>{waarden.hint}</textarea>
 	{/snippet}
 </AdminVeld>
 

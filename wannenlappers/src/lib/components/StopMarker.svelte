@@ -6,9 +6,11 @@
 	interface Props {
 		stop: Stop;
 		status: StopStatus;
+		/** Link naar de opdracht; enkel bij de volgende stop. */
+		href?: string;
 	}
 
-	let { stop, status }: Props = $props();
+	let { stop, status, href }: Props = $props();
 
 	const statusTekst: Record<StopStatus, string> = {
 		verzameld: 'gestempeld',
@@ -17,72 +19,63 @@
 	};
 </script>
 
+{#snippet inhoud()}
+	<span class="visueel-verborgen">Stop {stop.nr}, {stop.naam}: {statusTekst[status]}</span>
+	{#if status === 'verzameld'}
+		<Icoon naam="vinkje" maat={20} />
+	{:else}
+		<Icoon naam={stop.icoon} maat={status === 'volgende' ? 26 : 20} />
+	{/if}
+{/snippet}
+
 <li
-	class={['marker', status, { kist: !stop.stempel }]}
+	class={['marker', status]}
 	style:left="{(stop.x / KAART.breedte) * 100}%"
 	style:top="{(stop.y / KAART.hoogte) * 100}%"
 >
-	<span class="visueel-verborgen">Stop {stop.nr}, {stop.naam}: {statusTekst[status]}</span>
-	{#if status === 'verzameld'}
-		<Icoon naam="vinkje" maat={18} />
+	{#if href}
+		<a class="rond" {href}>{@render inhoud()}</a>
 	{:else}
-		<Icoon naam={stop.icoon} maat={status === 'volgende' ? 28 : 21} />
+		<span class="rond">{@render inhoud()}</span>
 	{/if}
-	<span class="nr" aria-hidden="true">{stop.nr}</span>
 </li>
 
 <style>
 	.marker {
-		--maat: 42px;
 		position: absolute;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: var(--maat);
-		height: var(--maat);
-		border: 2.5px solid var(--kleur-groen-donker);
-		border-radius: 50%;
-		background: var(--kleur-wit);
-		color: var(--kleur-groen-donker);
 		translate: -50% -50%;
 	}
 
-	.kist {
-		border-color: var(--kleur-blauw);
-		color: var(--kleur-blauw);
-	}
-
-	.volgende {
-		--maat: 56px;
-		border: 4px solid var(--kleur-wit);
-		background: var(--kleur-groen-donker);
-		color: var(--kleur-wit);
-	}
-
-	.verzameld {
-		background: var(--kleur-groen-donker);
-		color: var(--kleur-wit);
-	}
-
-	.nr {
-		position: absolute;
-		top: -4px;
-		right: -4px;
+	.rond {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 18px;
-		height: 18px;
+		width: 40px;
+		height: 40px;
 		border-radius: 50%;
-		background: var(--kleur-blauw);
-		color: var(--kleur-wit);
-		font-family: var(--font-titel);
-		font-weight: 800;
-		font-size: 10px;
+		background: var(--kleur-wit);
+		color: var(--kleur-inkt);
+		box-shadow: 0 4px 10px var(--kleur-schaduw-marker);
+		text-decoration: none;
 	}
 
-	.volgende .nr {
-		top: -6px;
-		right: -6px;
+	.volgende .rond {
+		width: 56px;
+		height: 56px;
+		background: var(--kleur-blauw);
+		color: var(--kleur-wit);
+	}
+
+	.verzameld .rond {
+		background: var(--kleur-groen-donker);
+		color: var(--kleur-wit);
+	}
+
+	a.rond {
+		transition: filter var(--overgang);
+	}
+
+	a.rond:hover {
+		filter: brightness(1.15);
 	}
 </style>

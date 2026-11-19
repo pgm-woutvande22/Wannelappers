@@ -10,7 +10,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 		laadFormulierOpties(locals.supabase),
 		locals.supabase
 			.from('oefeningen')
-			.select('stop_nr, titel, tekst, audio_pad, volgorde, actief')
+			.select('stop_nr, titel, tekst, stappen, hint, audio_pad, volgorde, actief')
 			.eq('id', params.id)
 			.maybeSingle(),
 		locals.supabase
